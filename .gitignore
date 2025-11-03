@@ -1,0 +1,8 @@
+# Exclude everything in roots_media except Frontend-aplication
+roots_media/*
+!roots_media/Frontend-aplication/
+
+# Node modules (should already be in Frontend-aplication/.gitignore, but adding here for safety)
+node_modules/
+*.log
+
