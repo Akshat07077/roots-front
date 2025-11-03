@@ -1,4 +1,6 @@
 {
-  "rootDirectory": "roots_media/Frontend-aplication"
+  "buildCommand": "cd roots_media/Frontend-aplication && npm install && npm run build",
+  "outputDirectory": "roots_media/Frontend-aplication/dist",
+  "installCommand": "cd roots_media/Frontend-aplication && npm install"
 }
 
