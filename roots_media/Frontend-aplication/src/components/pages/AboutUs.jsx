@@ -5,6 +5,7 @@ import about_us from "../../assets/about_us.png";
 import our_vission from "../../assets/our_vission.png";
 
 function AboutUs() {
+   const imageSize = { width: 450, height: 400 };
   return (
     <Container maxWidth="lg" sx={{ py: 2 }}>
       <Typography
@@ -49,8 +50,8 @@ function AboutUs() {
         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
           <Box
             sx={{
-              width: '450px',
-              height: '300px',
+              width: `${imageSize.width}px`,
+              height: `${imageSize.height}px`,
               overflow: 'hidden',
               borderRadius: '12px',
               boxShadow: '0px 8px 20px rgba(0,0,0,0.1)',
@@ -61,8 +62,8 @@ function AboutUs() {
               alt="Who We Are"
               style={{
                 width: '100%',
-                height: '100%',
-                objectFit: 'cover',
+                height: "100%",
+                // objectFit: 'cover',
               }}
             />
           </Box>
@@ -102,9 +103,8 @@ function AboutUs() {
             src={our_vission}
             // alt="Our Vision"
             style={{
-              width: "100%",
-              maxWidth: "450px",
-              height: "300px",
+              width: `${imageSize.width}px`,
+              height: `${imageSize.height}px`,
               objectFit: "cover",
               borderRadius: "12px",
               boxShadow: "0px 8px 20px rgba(0,0,0,0.1)",

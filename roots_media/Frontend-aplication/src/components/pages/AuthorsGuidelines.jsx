@@ -15,8 +15,8 @@ import MainLayout from "../templates/MainLayout";
 function AuthorsGuidelines() {
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = "/Documents/article_manual_script.docx";
-    link.download = "Manuscript_Template.docx"; 
+    link.href = "/Documents/article_manual_script.pdf";
+    link.download = "Manuscript_Template.pdf"; 
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

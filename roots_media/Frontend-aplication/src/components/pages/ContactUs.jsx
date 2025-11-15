@@ -8,6 +8,8 @@ import {
   CardContent,
   IconButton,
   Container,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import {
   Email,
@@ -28,6 +30,7 @@ function ContactUs() {
     message: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "" });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -43,13 +46,14 @@ const handleSubmit = async (e) => {
       body: JSON.stringify(formData),
     });
 
-    if (response.ok) {
-      setIsSubmitted(true);
-      setFormData({ name: "", email: "", message: "" });
-      setTimeout(() => setIsSubmitted(false), 3000);
-    } else {
-      console.error("Failed to send message");
-    }
+   if (response.ok) {
+  setIsSubmitted(true);
+  setFormData({ name: "", email: "", message: "" });
+  setTimeout(() => setIsSubmitted(false), 3000);
+  setSnackbar({ open: true, message: "Message sent successfully!", severity: "success" });
+} else {
+  console.error("Failed to send message");
+}
   } catch (error) {
     console.error("Error submitting contact form:", error);
   }
@@ -206,7 +210,7 @@ const handleSubmit = async (e) => {
   {[
     {
       name: "Shaik Allamalik Ansari",
-      title: "Founder and CEO",
+      title: "Founder and chief editor",
       phone: "+91 6305807610",
       email: "Shaikansari1999@gmail.com",
       emailHref: "mailto:Shaikansari1999@gmail.com",
@@ -214,7 +218,7 @@ const handleSubmit = async (e) => {
     },
     {
       name: "Garlapati Arun",
-      title: "Editor in Chief",
+      title: "Co - Founder and Chief editor",
       phone: "+91 6302 286 595",
       email: "arungarlapati.126@gmail.com",
       emailHref: "mailto:arungarlapati.126@gmail.com",
@@ -391,6 +395,20 @@ const handleSubmit = async (e) => {
             </CardContent>
           </Card>
         </Box> */}
+        <Snackbar
+  open={snackbar.open}
+  autoHideDuration={6000}
+  onClose={() => setSnackbar({ ...snackbar, open: false })}
+  anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+>
+  <Alert
+    onClose={() => setSnackbar({ ...snackbar, open: false })}
+    severity={snackbar.severity}
+    sx={{ width: "100%" }}
+  >
+    {snackbar.message}
+  </Alert>
+</Snackbar>
       </Container>
     </MainLayout>
   );

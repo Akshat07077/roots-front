@@ -90,15 +90,15 @@ function PublicationFees() {
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6}>
                   <Typography fontWeight="bold" sx={{ color: "#2e4638" }}>Account Holder's Name:</Typography>
-                  <Typography sx={{ mb: 2 }}>******</Typography>
+                  <Typography sx={{ mb: 2 }}>SHAIK ALLAMALIK ANSARI</Typography>
                   <Typography fontWeight="bold" sx={{ color: "#2e4638" }}>Account Number:</Typography>
-                  <Typography sx={{ mb: 2, fontFamily: "monospace", fontSize: "1.1rem" }}>35843617265</Typography>
+                  <Typography sx={{ mb: 2, fontFamily: "monospace", fontSize: "1.1rem" }}>322402010027995</Typography>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Typography fontWeight="bold" sx={{ color: "#2e4638" }}>Bank and Branch:</Typography>
-                  <Typography sx={{ mb: 2 }}>State Bank of India, Teesta Bazar</Typography>
+                  <Typography sx={{ mb: 2 }}>Union Bank of India, Yerragondapalem</Typography>
                   <Typography fontWeight="bold" sx={{ color: "#2e4638" }}>Bank IFSC Code:</Typography>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "1.1rem" }}>SBIN0009324</Typography>
+                  <Typography sx={{ fontFamily: "monospace", fontSize: "1.1rem" }}>UBIN0819417</Typography>
                 </Grid>
               </Grid>
             </Card>
@@ -139,8 +139,8 @@ function PublicationFees() {
           >
             Important Note:
           </Typography>
-          <Typography variant="body2" sx={{ my: 1, mx: 1 }}>
-            Transaction id + Receipt is mandatory and to be sent at <strong>rootsmedia.publications@gmail.com</strong> after payment.
+          <Typography variant="body1" sx={{ my: 1, mx: 1 }}>
+           <strong> Transaction id + Receipt is mandatory and to be sent at rootsmedia.publications@gmail.com after payment.</strong>
           </Typography>
           <Typography
             variant="subtitle1"
@@ -148,7 +148,7 @@ function PublicationFees() {
           >
             About Roots Media
           </Typography>
-          <Typography variant="body2">
+          <Typography variant="body1">
             Rootsmedia is an open access magazine. Publication fees as mentioned are generally asked from the authors to meet up the expenditure for website maintenance and designing the pages of our magazine.
           </Typography>
         </Card>

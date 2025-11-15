@@ -21,6 +21,8 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import AboutUs from "./AboutUs";
+import banner1 from "../../assets/banner1.png";
+import banner2 from "../../assets/banner2.png";
 
 const archiveData = {
   "September 2025": {
@@ -188,8 +190,7 @@ const featuredArticles = [
     uploadedDate: new Date("2025-08-18"),
     readTime: "10 min read",
     category: "Horticulture",
-    image:
-      "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=1200&h=500&fit=crop",
+    image: banner2,
   },
   {
     id: 4,
@@ -199,8 +200,7 @@ const featuredArticles = [
     uploadedDate: new Date("2025-08-16"),
     readTime: "8 min read",
     category: "Dairy Technology",
-    image:
-      "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1200&h=500&fit=crop",
+    image:banner1
   },
 ];
 
@@ -243,7 +243,7 @@ useEffect(() => {
   }
   const fetchArticles = async () => {
     try {
-      const response = await fetch("http://192.168.1.10:3000/api/articles");
+      const response = await fetch("https://roots-back-td3h.vercel.app/api/articles");
       const data = await response.json();
 
       if (data?.articles) {

@@ -9,6 +9,7 @@ import {
   Alert,
   LinearProgress,
   Divider,
+  Snackbar,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -33,6 +34,7 @@ function DocumentUpload() {
     file: false,
     paymentScreenshot: false,
   });
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "" });
   const handleDrag = (e, type) => {
     e.preventDefault();
     e.stopPropagation();
@@ -96,7 +98,8 @@ function DocumentUpload() {
       newErrors.mobileNumber = "Enter a valid 10-digit mobile number.";
     if (!formData.file)
       newErrors.file = "Please upload your article (.docx only).";
-
+    if (!formData.paymentScreenshot)
+      newErrors.paymentScreenshot = "Please upload the payment screenshot.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -131,9 +134,11 @@ function DocumentUpload() {
 
       if (response.ok) {
         setSuccessMsg("Paper uploaded successfully!");
+        setSnackbar({ open: true, message: "Upload successful!", severity: "success" });
         handleClear();
       } else {
         setErrorMsg("Upload failed. Please try again.");
+        setSnackbar({ open: true, message: "Upload failed.", severity: "error" });
       }
     } catch (error) {
       setErrorMsg("Something went wrong. Please try again later.");
@@ -301,13 +306,13 @@ function DocumentUpload() {
                   borderColor: dragActive.file
                     ? "#2e4638"
                     : errors.file
-                    ? "#d32f2f"
-                    : "#c5d2ca",
+                      ? "#d32f2f"
+                      : "#c5d2ca",
                   backgroundColor: dragActive.file
                     ? "#f0f7f3"
                     : errors.file
-                    ? "#ffebee"
-                    : "#fafdfb",
+                      ? "#ffebee"
+                      : "#fafdfb",
                 }}
                 onDragEnter={(e) => handleDrag(e, "file")}
                 onDragLeave={(e) => handleDrag(e, "file")}
@@ -358,6 +363,7 @@ function DocumentUpload() {
                 mb={1}
               >
                 Upload Payment Screenshot (.jpg / .png)
+                <span style={{ color: "red", marginLeft: 4 }}>*</span>
               </Typography>
               <Box
                 sx={{
@@ -365,8 +371,8 @@ function DocumentUpload() {
                   borderColor: dragActive.paymentScreenshot
                     ? "#2e4638"
                     : errors.paymentScreenshot
-                    ? "#d32f2f"
-                    : "#c5d2ca",
+                      ? "#d32f2f"
+                      : "#c5d2ca",
                 }}
                 onDragEnter={(e) => handleDrag(e, "paymentScreenshot")}
                 onDragLeave={(e) => handleDrag(e, "paymentScreenshot")}
@@ -385,7 +391,12 @@ function DocumentUpload() {
                   htmlFor="payment-input"
                   style={{ cursor: "pointer", display: "block" }}
                 >
-                  <CloudUploadIcon sx={{ fontSize: 40, color: "#2e4638" }} />
+                  <CloudUploadIcon
+                    sx={{
+                      fontSize: 40,
+                      color: errors.file ? "#d32f2f" : "#2e4638",
+                    }}
+                  />
                   <Typography sx={{ fontWeight: 600, mt: 1 }}>
                     {formData.paymentScreenshot ? (
                       <>
@@ -434,6 +445,20 @@ function DocumentUpload() {
             </Box>
           </Box>
         </Paper>
+        <Snackbar
+          open={snackbar.open}
+          autoHideDuration={6000}
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert
+            onClose={() => setSnackbar({ ...snackbar, open: false })}
+            severity={snackbar.severity}
+            sx={{ width: "100%" }}
+          >
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
       </Container>
     </MainLayout>
   );
