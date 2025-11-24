@@ -5,14 +5,14 @@ import about_us from "../../assets/about_us.png";
 import our_vission from "../../assets/our_vission.png";
 
 function AboutUs() {
-   const imageSize = { width: 450, height: 400 };
+   const imageSize = { maxWidth: 450, height: 400 };
   return (
-    <Container maxWidth="lg" sx={{ py: 2 }}>
+    <Container maxWidth="lg" sx={{ py: 2 , px:0}}>
       <Typography
         variant="h3"
         sx={{
           textAlign: "center",
-          mb: 6,
+          mb: 3,
           fontWeight: "bold",
           color: "#2e4638",
         }}
@@ -69,8 +69,6 @@ function AboutUs() {
           </Box>
         </Box>
       </Box>
-
-      {/* Section 2 - Image Left / Content Right */}
       <Box
         sx={{
           display: "flex",
@@ -78,7 +76,6 @@ function AboutUs() {
           alignItems: "center",
           justifyContent: "space-between",
           gap: 4,
-          mb: 10,
         }}
       >
         <Box sx={{ flex: 1 }}>

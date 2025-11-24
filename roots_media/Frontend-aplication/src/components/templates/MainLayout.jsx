@@ -14,7 +14,7 @@ export default function MainLayout({ children, withSidebar = false }) {
       }}
     >
       <Navbar />
-      <Box component="main" sx={{ flex: 1, width: "100%", px: 2, py: 4 }}>
+      <Box component="main" sx={{ flex: 1, width: "100%", py: 1 }}>
         {/* <Grid container spacing={4}> */}
         <Grid item xs={12} md={withSidebar ? 8 : 12}>
           {children}
