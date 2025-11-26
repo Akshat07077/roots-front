@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Box, IconButton, Typography, Divider, Button } from "@mui/material";
+import { Modal, Box, IconButton, Typography, Divider } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 export default function SubmissionDeadLine({ open, handleClose }) {
   const getMonthlyDeadline = () => {
     const today = new Date();
-      let deadline = new Date(today.getFullYear(), today.getMonth(), 25, 23, 59, 59);
+    let deadline = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      25,
+      23,
+      59,
+      59
+    );
+
     if (today > deadline) {
-    deadline = new Date(today.getFullYear(), today.getMonth() + 1, 25, 23, 59, 59);
-  }
+      deadline = new Date(
+        today.getFullYear(),
+        today.getMonth() + 1,
+        25,
+        23,
+        59,
+        59
+      );
+    }
 
     return deadline;
   };
@@ -16,72 +31,111 @@ export default function SubmissionDeadLine({ open, handleClose }) {
   const [deadline, setDeadline] = useState(getMonthlyDeadline());
 
   const [timeLeft, setTimeLeft] = useState({
-    days: 0, hours: 0, minutes: 0, seconds: 0,
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
   });
 
-useEffect(() => {
-const calculateTimeLeft = () => {
-  const now = new Date();
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date();
 
-  const thisMonth25 = new Date(now.getFullYear(), now.getMonth(), 25, 23, 59, 59);
-  const nextMonth25 = new Date(now.getFullYear(), now.getMonth() + 1, 25, 23, 59, 59);
-  const nextMonthStart = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-  if (now > thisMonth25 && now < nextMonthStart) {
-    const negativeDays = Math.floor((now - thisMonth25) / (1000 * 60 * 60 * 24));
+      const thisMonth25 = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        25,
+        23,
+        59,
+        59
+      );
 
-    setTimeLeft({
-      days: -negativeDays,
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-    });
+      const nextMonth25 = new Date(
+        now.getFullYear(),
+        now.getMonth() + 1,
+        25,
+        23,
+        59,
+        59
+      );
 
-    return;
-  }
+      const nextMonthStart = new Date(
+        now.getFullYear(),
+        now.getMonth() + 1,
+        1
+      );
+      if (now <= thisMonth25) {
+        const diff = thisMonth25 - now;
 
-  let activeDeadline =
-    now > thisMonth25 ? nextMonth25 : thisMonth25;
+        setTimeLeft({
+          days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((diff / (1000 * 60)) % 60),
+          seconds: Math.floor((diff / 1000) % 60),
+        });
 
-  const diff = activeDeadline - now;
+        return;
+      }
 
-  if (diff <= 0) {
-    setDeadline(getMonthlyDeadline());
-    return;
-  }
+      if (now > thisMonth25 && now < nextMonthStart) {
+        const diff = now - thisMonth25;
 
-  setTimeLeft({
-    days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-    hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-    minutes: Math.floor((diff / (1000 * 60)) % 60),
-    seconds: Math.floor((diff / 1000) % 60),
-  });
-};
+        const negativeDays = -Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
 
-  calculateTimeLeft();
+        setTimeLeft({
+          days: negativeDays, 
+          hours: hours,
+          minutes: minutes,
+          seconds: seconds,
+        });
 
-  const timer = setInterval(() => {
+        return;
+      }
+      const diff = nextMonth25 - now;
+
+      setTimeLeft({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      });
+    };
+
     calculateTimeLeft();
-  }, 1000);
-
-  return () => clearInterval(timer);
-}, [deadline]);
-
+    const timer = setInterval(calculateTimeLeft, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <Modal open={open} onClose={handleClose}>
-      <Box sx={{
-        position: "absolute", top: "50%", left: "50%",
-        transform: "translate(-50%, -50%)", bgcolor: "#27382e",
-        color: "white", p: 2, borderRadius: 2, maxWidth: 500,
-      }}>
-        <IconButton onClick={handleClose} sx={{ position: "absolute", top: 10, right: 10, color: "white" }}>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          bgcolor: "#27382e",
+          color: "white",
+          p: 2,
+          borderRadius: 2,
+          maxWidth: 500,
+        }}
+      >
+        <IconButton
+          onClick={handleClose}
+          sx={{ position: "absolute", top: 10, right: 10, color: "white" }}
+        >
           <CloseIcon />
         </IconButton>
 
-        <Typography variant="h5" fontWeight={700} sx={{ mb: 2, textAlign:"center" }}>
+        <Typography variant="h5" fontWeight={700} sx={{ mb: 2, textAlign: "center" }}>
           Submission Deadline for {deadline.toLocaleString("default", { month: "long" })} Issue
         </Typography>
-        <Typography variant="body2" sx={{ mb: 2, textAlign:"center" }}>
+
+        <Typography variant="body2" sx={{ mb: 2, textAlign: "center" }}>
           (Articles submitted after deadline won't be considered)
         </Typography>
 
@@ -98,22 +152,10 @@ const calculateTimeLeft = () => {
 
         <Divider sx={{ borderColor: "rgba(255,255,255,0.3)", mb: 3 }} />
 
-        <Typography sx={{ mb: 2, textAlign:"center" }}>
+        <Typography sx={{ mb: 2, textAlign: "center" }}>
           Submit your article to <br />
           <strong>rootsmedia.publications@gmail.com</strong>
         </Typography>
-
-       {/* <Box sx={{display:"flex", justifyContent:"center"}}>
-         <Button
-          variant="contained"
-          color="secondary"
-          href="./Volume-05-Issue-09-September-2025.pdf"
-          target="_blank"
-          sx={{textTransform:"none"}}
-        >
-          Download Latest Issue
-        </Button>
-       </Box> */}
       </Box>
     </Modal>
   );
