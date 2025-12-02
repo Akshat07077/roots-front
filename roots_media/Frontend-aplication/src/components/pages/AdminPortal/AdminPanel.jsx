@@ -19,6 +19,7 @@ import {
   Add as AddIcon,
   Edit,
   Delete,
+  CloudUpload as CloudUploadIcon
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
@@ -37,6 +38,16 @@ function AdminDashboard() {
   const [members, setMembers] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editingMemberId, setEditingMemberId] = useState(null);
+  const [volumeTitle, setVolumeTitle] = useState('');
+  const [issueTitle, setIssueTitle] = useState('');
+  const [magazinePDF, setMagazinePDF] = useState(null);
+  const pdfInputRef = useRef(null);
+const [magazineErrors, setMagazineErrors] = useState({
+  volume: "",
+  issue: "",
+  pdf: "",
+});
+
 
   const [editorialMember, setEditorialMember] = useState({
     name: '',
@@ -157,8 +168,6 @@ function AdminDashboard() {
 
       let url = "https://roots-back-td3h.vercel.app/api/editorial-board";
       let method = "POST";
-
-      // If editing → PATCH existing
       if (isEditing && editingMemberId) {
         url = `https://roots-back-td3h.vercel.app/api/editorial-board/${editingMemberId}`;
         method = "PATCH";
@@ -183,6 +192,39 @@ function AdminDashboard() {
     }
   };
 
+const handleSubmitMazine = async () => {
+const newErrors = {
+    volume: volumeTitle ? "" : "Volume Title is required.",
+    issue: issueTitle ? "" : "Issue Title is required.",
+    pdf: magazinePDF ? "" : "PDF file is required.",
+  };
+
+  setMagazineErrors(newErrors);
+  if (newErrors.volume || newErrors.issue || newErrors.pdf) return;
+
+  try {
+    const formData = new FormData();
+    formData.append('volume', volumeTitle);
+    formData.append('issue', issueTitle);
+    formData.append('pdf', magazinePDF);
+
+    const response = await fetch('https://roots-back-td3h.vercel.app/api/admin/publish', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.success) {
+      setVolumeTitle('');
+      setIssueTitle('');
+      setMagazinePDF(null);
+    } else {
+    }
+  } catch (error) {
+    console.error('Error uploading magazine:', error);
+  }
+};
 
   const fetchMembers = async () => {
     setLoading(true);
@@ -268,11 +310,23 @@ function AdminDashboard() {
         alert(data.error || 'Failed to update article status');
       }
     } catch (err) {
-      console.error('Network error:', err);
-      alert('Network error. Please try again.');
     }
   };
-  
+const handleClear = () => {
+  setVolumeTitle("");
+  setIssueTitle("");
+  setMagazinePDF(null);
+
+  setMagazineErrors({
+    volume: "",
+    issue: "",
+    pdf: "",
+  });
+    if (pdfInputRef.current) {
+    pdfInputRef.current.value = "";
+  }
+};
+
   const handleApprove = (articleId) => updateArticleStatus(articleId, 'approved');
 
   const handleReject = (articleId) => updateArticleStatus(articleId, 'rejected');
@@ -287,6 +341,7 @@ function AdminDashboard() {
         {[
           { id: 'articles', label: 'Articles Management', icon: <ArticleIcon /> },
           { id: 'editorial', label: 'Editorial Members', icon: <PeopleIcon /> },
+          { id: 'magazine', label: 'Upload Magazine', icon: <CloudUploadIcon /> }, 
         ].map((item) => (
           <ListItem disablePadding key={item.id}>
             <ListItemButton
@@ -333,9 +388,15 @@ function AdminDashboard() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            {selectedMenu === 'articles' ? 'Articles Dashboard' : 'Editorial Members'}
+            {selectedMenu === 'articles'
+              ? 'Articles Dashboard'
+              : selectedMenu === 'editorial'
+              ? 'Editorial Members'
+              : 'Upload Magazine'}
           </Typography>
-          <Button color="inherit" variant="outlined" onClick={handleLogout}>Logout</Button>
+          <Button color="inherit" variant="outlined" onClick={handleLogout}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
       <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
@@ -423,23 +484,23 @@ function AdminDashboard() {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((article) => (
                               <TableRow key={article.id} hover>
-                                <TableCell>{article.title}</TableCell>
-                                <TableCell>{article.author_name}</TableCell>
-                                <TableCell>{new Date(article.created_at).toLocaleDateString()}</TableCell>
-                                <TableCell>
+                                <TableCell sx={{ padding: "8px" }}>{article.title}</TableCell>
+                                <TableCell sx={{ padding: "8px" }}>{article.author_name}</TableCell>
+                                <TableCell sx={{ padding: "8px" }}>{new Date(article.created_at).toLocaleDateString()}</TableCell>
+                                <TableCell sx={{ padding: "8px" }}>
                                   <Chip
                                     label={article.status}
                                     color={
                                       article.status === 'approved'
                                         ? 'success'
                                         : article.status === 'rejected'
-                                          ? 'error'
-                                          : 'warning'
+                                        ? 'error'
+                                        : 'warning'
                                     }
                                     size="small"
                                   />
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell align="center" sx={{ padding: "8px" }}>
                                   <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center', flexWrap: 'wrap' }}>
                                     <Button
                                       variant="contained"
@@ -599,6 +660,7 @@ function AdminDashboard() {
               <DialogContent>
                 <TextField
                   label="Name"
+                  margin='dense'
                   fullWidth
                   value={editorialMember.name}
                   onChange={(e) => setEditorialMember({ ...editorialMember, name: e.target.value })}
@@ -683,6 +745,71 @@ function AdminDashboard() {
             </Dialog>
           </Container>
         )}
+  {selectedMenu === 'magazine' && (
+  <Container maxWidth="md">
+    <Card elevation={2} sx={{ p: 3 }}>
+      <Typography variant="h5" fontWeight="bold" gutterBottom>
+        Upload Magazine
+      </Typography>
+<TextField
+  margin="dense"
+  fullWidth
+  label="Volume Title"
+  value={volumeTitle}
+  onChange={(e) => {setVolumeTitle(e.target.value);setMagazineErrors(prev => ({ ...prev, volume: "" }));}}
+  error={!!magazineErrors.volume}
+  helperText={magazineErrors.volume}
+/>
+
+<TextField
+  margin="dense"
+  fullWidth
+  label="Issue Title"
+  value={issueTitle}
+  onChange={(e) => {setIssueTitle(e.target.value), setMagazineErrors(prev => ({ ...prev, issue: "" }));}}
+
+  error={!!magazineErrors.issue}
+  helperText={magazineErrors.issue}
+/>
+
+<div style={{display:"flex", flexDirection:"column", margin:"5px 0px"}}>
+  <Button variant="outlined" component="label" sx={{textTransform:"none", maxWidth:"120px"}}>
+  Upload PDF
+  <input
+    margin="dense"
+    type="file"
+    hidden
+    ref={pdfInputRef}
+    accept="application/pdf"
+    onChange={(e) => {
+      setMagazinePDF(e.target.files[0]);
+      setMagazineErrors((prev) => ({ ...prev, pdf: "" }));
+    }}
+  />
+</Button>
+{magazineErrors.pdf && (
+  <Typography variant='caption' color="error" >
+    {magazineErrors.pdf}
+  </Typography>
+)}
+</div>
+
+<div style={{display:"flex", justifyContent:"space-between", margin:"8px 0px"}}>
+<Button variant="contained"
+  sx={{ textTransform:"none" }}
+  onClick={handleClear}>Clear All</Button>
+<Button
+  variant="contained"
+  // fullWidth
+  sx={{ textTransform:"none" }}
+  onClick={handleSubmitMazine}
+>
+  Upload Magazine
+</Button>
+</div>
+    </Card>
+  </Container>
+)}
       </Box>
     </Box>
   );
