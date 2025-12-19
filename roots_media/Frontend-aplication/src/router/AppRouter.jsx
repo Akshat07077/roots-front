@@ -10,7 +10,7 @@ import LoginPage from "../components/pages/AdminPortal/LoginPage";
 import AdminDashboard from "../components/pages/AdminPortal/AdminPanel";
 import AllArticles from "../components/pages/AllAricles";
 import Articles from "../components/pages/Articles";
-// import ProtectedRoute from "../components/pages/ProtectedRoutes";
+import ProtectedRoute from "../components/pages/ProtectedRoute";
 import VolumePage from "../components/pages/VolumePage";
 import VolumeDetails from "../components/pages/VolumePage";
 
@@ -29,8 +29,7 @@ export default function AppRouter() {
          <Route path="/articles/:month" element={<Articles/>} />
          <Route path="/volume/:volumeId" element={<VolumeDetails />} />
          <Route path="/login" element={<LoginPage />} />
-         <Route path="/admin" element={<AdminDashboard />} />
-         {/* <Route path="/admin" element={  <ProtectedRoute><AdminDashboard /></ProtectedRoute>} /> */}
+         <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

@@ -49,10 +49,8 @@ export default function EditorialAndAdvisoryBoard() {
           <Card
             sx={{
               textAlign: "center",
-              borderRadius: 3,
-              boxShadow: "0px 2px 10px rgba(0,0,0,0.1)",
-              transition: "transform 0.3s ease",
-              "&:hover": { transform: "translateY(-5px)" },
+              borderRadius: 4,
+              boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)",
             }}
           >
             <CardContent>
@@ -63,7 +61,7 @@ export default function EditorialAndAdvisoryBoard() {
                   width: 100,
                   height: 100,
                   margin: "0 auto 10px auto",
-                  border: `2px solid ${theme.palette.primary.main}`,
+                  border: "2px solid #2e4638",
                 }}
               />
               <Typography
@@ -107,16 +105,16 @@ export default function EditorialAndAdvisoryBoard() {
               sx={{
                 fontWeight: "bold",
                 mb: 2,
-                color: theme.palette.primary.main,
-                textTransform: "uppercase",
+                background: "linear-gradient(135deg, #2e4638, #1f3127)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
               }}
             >
               Editorial & Advisory Board
             </Typography>
             <Typography
               variant="body1"
-              color="text.secondary"
-              sx={{ maxWidth: 600, mx: "auto", mb: 4 }}
+              sx={{ maxWidth: 600, mx: "auto", mb: 4, color: "#2e4638" }}
             >
               Our distinguished board members contribute their expertise and
               experience to maintain the highest academic standards.

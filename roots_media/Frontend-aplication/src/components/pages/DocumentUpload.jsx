@@ -185,7 +185,7 @@ function DocumentUpload() {
           sx={{
             textAlign: "center",
             fontWeight: "bold",
-            mb: 3,
+            mb: 4,
             background: "linear-gradient(135deg, #2e4638, #1f3127)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
@@ -195,11 +195,10 @@ function DocumentUpload() {
         </Typography>
 
         <Paper
-          elevation={0}
           sx={{
             p: 4,
-            borderRadius: "24px",
-            boxShadow: "0 10px 40px rgba(46,70,56,0.08)",
+            borderRadius: 4,
+            boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)",
           }}
         >
           {loading && (

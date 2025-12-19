@@ -68,7 +68,13 @@ export default function AllArticles() {
         <Typography 
           variant="h4" 
           align="center" 
-          sx={{ fontWeight: 700, color: '#2c5530', mb: 2 }}
+          sx={{
+            fontWeight: 700,
+            background: "linear-gradient(135deg, #2e4638, #1f3127)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            mb: 2,
+          }}
         >
           All Archives
         </Typography>
@@ -76,28 +82,23 @@ export default function AllArticles() {
         <Typography 
           variant="body1" 
           align="center" 
-          sx={{ color: '#666', mb: 4 }}
+          sx={{ color: '#2e4638', mb: 4 }}
         >
           Browse all published issues
         </Typography>
 
-        <Divider sx={{ mb: 5, maxWidth: 200, mx: 'auto' }} />
+        <Divider sx={{ mb: 5, maxWidth: 200, mx: 'auto', borderColor: '#d4af37' }} />
 
         <Grid container spacing={4}>
           {Object.entries(articleData).map(([monthKey, monthData]) => (
             <Grid item xs={12} sm={6} md={4} key={monthKey}>
               <Card
                 sx={{
-                  borderRadius: 3,
-                  boxShadow: '0 4px 15px rgba(0,0,0,0.08)',
-                  transition: '0.3s',
+                  borderRadius: 4,
+                  boxShadow: '0 8px 24px rgba(46, 70, 56, 0.08)',
                   height: '100%',
                   display: 'flex',
                   flexDirection: 'column',
-                  '&:hover': {
-                    boxShadow: '0 8px 25px rgba(0,0,0,0.12)',
-                    transform: 'translateY(-6px)',
-                  },
                 }}
               >
                 <CardContent
@@ -114,7 +115,7 @@ export default function AllArticles() {
                     sx={{
                       width: 80,
                       height: 100,
-                      bgcolor: '#e8f5e9',
+                      bgcolor: '#f0f7f2',
                       borderRadius: 2,
                       mx: 'auto',
                       mb: 2,
@@ -123,7 +124,7 @@ export default function AllArticles() {
                       justifyContent: 'center',
                       fontWeight: 700,
                       fontSize: '2rem',
-                      color: '#2c5530',
+                      color: '#2e4638',
                     }}
                   >
                     {monthData.articleCount}
@@ -132,7 +133,7 @@ export default function AllArticles() {
                   <Typography
                     variant="h6"
                     fontWeight={600}
-                    sx={{ color: '#1a3a1e', mb: 1 }}
+                    sx={{ color: '#2e4638', mb: 1 }}
                   >
                     {monthData.displayName}
                   </Typography>
@@ -153,11 +154,7 @@ export default function AllArticles() {
                       py: 1,
                       textTransform: 'none',
                       fontSize: '0.9rem',
-                      background: 'linear-gradient(135deg, #2c5530, #1a3a1e)',
-                      color: 'white',
-                      '&:hover': {
-                        background: 'linear-gradient(135deg, #1a3a1e, #2c5530)',
-                      },
+                      background: 'linear-gradient(135deg, #2e4638, #1f3127)',
                     }}
                   >
                     View Articles
@@ -179,12 +176,8 @@ export default function AllArticles() {
               py: 1.5,
               textTransform: 'none',
               fontSize: '1rem',
-              borderColor: '#2c5530',
-              color: '#2c5530',
-              '&:hover': {
-                borderColor: '#1a3a1e',
-                bgcolor: 'rgba(44, 85, 48, 0.04)',
-              },
+              borderColor: '#2e4638',
+              color: '#2e4638',
             }}
           >
             Back to Home

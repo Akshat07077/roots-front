@@ -70,12 +70,23 @@ const handleSubmit = async (e) => {
             textAlign: "center",
             mb: 2,
             fontWeight: "bold",
-            color: "#2e4638",
+            background: "linear-gradient(135deg, #2e4638, #1f3127)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
           Contact Us
         </Typography>
-        <Typography sx={{ mb: 6, display:'flex', justifyContent:"center" }}>
+        <Typography
+          variant="body1"
+          sx={{
+            mb: 4,
+            textAlign: "center",
+            color: "#2e4638",
+            maxWidth: "600px",
+            mx: "auto",
+          }}
+        >
           We'd love to hear from you! Whether you have a question, need support, or simply want to share your thoughts, we are here and ready to help.
         </Typography>
         {/* Main Layout */}
@@ -111,9 +122,9 @@ const handleSubmit = async (e) => {
           <Card
             sx={{
               flex: 1,
-              p: 4,
-              borderRadius: 3,
-              boxShadow: "0px 8px 25px rgba(0,0,0,0.1)",
+              p: 3.5,
+              borderRadius: 4,
+              boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)",
             }}
           >
             <Typography
@@ -163,10 +174,10 @@ const handleSubmit = async (e) => {
                 sx={{
                   py: 1.5,
                   textTransform: "none",
-                  fontSize: "1rem",
                   fontWeight: "bold",
                   borderRadius: 2,
-                  background: "linear-gradient(135deg, #2e4638, #c3a36b)",
+                  background: "linear-gradient(135deg, #2e4638, #1f3127)",
+                  color: "white",
                 }}
               >
                 {isSubmitted ? "Message Sent!" : "Submit"}
@@ -176,20 +187,18 @@ const handleSubmit = async (e) => {
         </Box>
 <Box
   sx={{
-    display: "flex",
-    flexWrap: "wrap",
+    display: "grid",
+    gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
     gap: 3,
-    justifyContent: "center",
-    mb: 6,
+    mb: 4,
   }}
 >
     <Card
     sx={{
-      flex: "1 1 250px",
-      p: 2,
-      borderRadius: 3,
+      p: 3,
+      borderRadius: 4,
       textAlign: "center",
-      boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+      boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)",
     }}
   >
     <CardContent>
@@ -197,7 +206,7 @@ const handleSubmit = async (e) => {
         <Email fontSize="large" />
       </Box>
       <Typography
-        variant="subtitle1"
+        variant="h6"
         sx={{ fontWeight: "bold", mb: 1, color: "#2e4638" }}
       >
         Email Us
@@ -228,16 +237,10 @@ const handleSubmit = async (e) => {
     <Card
       key={i}
       sx={{
-        flex: "1 1 250px",
-        p: 2,
-        borderRadius: 3,
+        p: 3,
+        borderRadius: 4,
         textAlign: "center",
-        boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
-        transition: "transform 0.2s, box-shadow 0.2s",
-        "&:hover": {
-          transform: "translateY(-5px)",
-          boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
-        },
+        boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)",
       }}
     >
       <CardContent>

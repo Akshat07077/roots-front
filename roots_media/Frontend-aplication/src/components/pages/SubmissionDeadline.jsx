@@ -117,11 +117,12 @@ export default function SubmissionDeadLine({ open, handleClose }) {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          bgcolor: "#27382e",
+          bgcolor: "#2e4638",
           color: "white",
-          p: 2,
-          borderRadius: 2,
+          p: 3.5,
+          borderRadius: 4,
           maxWidth: 500,
+          boxShadow: "0 8px 24px rgba(46, 70, 56, 0.2)",
         }}
       >
         <IconButton

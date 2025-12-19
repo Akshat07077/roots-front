@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
-import { Container, Typography, Grid, Card, CardContent, CardActions, Button } from '@mui/material';
+import { Container, Typography, Grid, Card, CardContent, CardActions, Button, Box } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import MainLayout from '../templates/MainLayout';
 
@@ -33,15 +33,25 @@ export default function Articles() {
 
   return (
      <MainLayout>
-    <Container maxWidth="lg">
-      <Typography variant="h4" align="center" sx={{ fontWeight: 700, color: '#2c5530', mb: 4 }}>
+    <Container maxWidth="lg" sx={{ py: 6 }}>
+      <Typography
+        variant="h4"
+        align="center"
+        sx={{
+          fontWeight: 700,
+          background: "linear-gradient(135deg, #2e4638, #1f3127)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          mb: 4,
+        }}
+      >
         {month.replace('-', ' ')} - Articles
       </Typography>
 
       <Grid container spacing={4}>
         {articles.map((article) => (
           <Grid item xs={12} sm={6} md={4} key={article.id}>
-            <Card sx={{ borderRadius: 3, boxShadow: '0 4px 15px rgba(0,0,0,0.08)' }}>
+            <Card sx={{ borderRadius: 4, boxShadow: '0 8px 24px rgba(46, 70, 56, 0.08)' }}>
               <CardContent>
                 <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
                   {article.title}
@@ -51,7 +61,7 @@ export default function Articles() {
               <CardActions sx={{ justifyContent: 'space-between', px: 2, pb: 2 }}>
                 <Button
                   variant="outlined"
-                  sx={{ textTransform: 'none', borderColor: '#2c5530', color: '#2c5530' }}
+                  sx={{ textTransform: 'none', borderColor: '#2e4638', color: '#2e4638' }}
                   href={article.pdf}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -61,7 +71,7 @@ export default function Articles() {
 
                 <Button
                   variant="contained"
-                  sx={{ textTransform: 'none', backgroundColor: '#2c5530' }}
+                  sx={{ textTransform: 'none', backgroundColor: '#2e4638' }}
                   href={article.pdf}
                   download
                   startIcon={<DownloadIcon />}
@@ -75,28 +85,23 @@ export default function Articles() {
       </Grid>
 
       {/* Back Button at the very end */}
-      <Button
-        component={RouterLink}
-        to="/"
-        variant="outlined"
-        sx={{
-        alignItems:"end",
-        //   mx: 'auto',
-          mt: 6,
-          px: 4,
-          py: 1.5,
-          textTransform: 'none',
-          fontSize: '1rem',
-          borderColor: '#2c5530',
-          color: '#2c5530',
-          '&:hover': {
-            borderColor: '#1a3a1e',
-            bgcolor: 'rgba(44, 85, 48, 0.04)',
-          },
-        }}
-      >
-        Back to home 
-      </Button>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-start', mt: 6 }}>
+        <Button
+          component={RouterLink}
+          to="/"
+          variant="outlined"
+          sx={{
+            px: 4,
+            py: 1.5,
+            textTransform: 'none',
+            fontSize: '1rem',
+            borderColor: '#2e4638',
+            color: '#2e4638',
+          }}
+        >
+          Back to home 
+        </Button>
+      </Box>
     </Container>
      </MainLayout>
   );

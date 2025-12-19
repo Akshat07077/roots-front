@@ -9,12 +9,14 @@ function AboutUs() {
   return (
     <Container maxWidth="lg" sx={{ py: 2 , px:0}}>
       <Typography
-        variant="h3"
+        variant="h4"
         sx={{
           textAlign: "center",
-          mb: 3,
+          mb: 4,
           fontWeight: "bold",
-          color: "#2e4638",
+          background: "linear-gradient(135deg, #2e4638, #1f3127)",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
         }}
       >
         About Us
@@ -50,11 +52,11 @@ function AboutUs() {
         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
           <Box
             sx={{
-              width: `${imageSize.width}px`,
+              width: `${imageSize.maxWidth}px`,
               height: `${imageSize.height}px`,
               overflow: 'hidden',
-              borderRadius: '12px',
-              boxShadow: '0px 8px 20px rgba(0,0,0,0.1)',
+              borderRadius: 4,
+              boxShadow: '0 8px 24px rgba(46, 70, 56, 0.08)',
             }}
           >
             <img
@@ -63,7 +65,6 @@ function AboutUs() {
               style={{
                 width: '100%',
                 height: "100%",
-                // objectFit: 'cover',
               }}
             />
           </Box>
@@ -96,17 +97,26 @@ function AboutUs() {
           </Typography>
         </Box>
         <Box sx={{ flex: 1, textAlign: "center" }}>
-          <img
-            src={our_vission}
-            // alt="Our Vision"
-            style={{
-              width: `${imageSize.width}px`,
+          <Box
+            sx={{
+              width: `${imageSize.maxWidth}px`,
               height: `${imageSize.height}px`,
-              objectFit: "cover",
-              borderRadius: "12px",
-              boxShadow: "0px 8px 20px rgba(0,0,0,0.1)",
+              overflow: 'hidden',
+              borderRadius: 4,
+              boxShadow: '0 8px 24px rgba(46, 70, 56, 0.08)',
+              margin: '0 auto',
             }}
-          />
+          >
+            <img
+              src={our_vission}
+              alt="Our Vision"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: "cover",
+              }}
+            />
+          </Box>
         </Box>
       </Box>
     </Container>

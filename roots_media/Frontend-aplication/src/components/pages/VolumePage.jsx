@@ -69,11 +69,13 @@ useEffect(() => {
     <MainLayout withSidebar>
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Typography
-          variant="h3"
+          variant="h4"
           sx={{
             fontWeight: 700,
-            color: "#c3a36b",
-            mb: 3,
+            background: "linear-gradient(135deg, #2e4638, #1f3127)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            mb: 4,
             textAlign: "center",
           }}
         >
@@ -88,7 +90,7 @@ useEffect(() => {
           <Grid container spacing={3}>
             {magazines.map((mag, i) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
-                <Card sx={{ borderRadius: 2, overflow: "hidden" }}>
+                <Card sx={{ borderRadius: 4, overflow: "hidden", boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)" }}>
                   <CardMedia component="img" height="230" image={mag.image} />
 
                   <CardContent>
@@ -110,7 +112,7 @@ useEffect(() => {
                         mt: 2,
                         borderRadius: 2,
                         py: 1,
-                        background: "linear-gradient(135deg, #2e4638, #3d5a48)",
+                        background: "linear-gradient(135deg, #2e4638, #1f3127)",
                       }}
                     >
                       Read Magazine

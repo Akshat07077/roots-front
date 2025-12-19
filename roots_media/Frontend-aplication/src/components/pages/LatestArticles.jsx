@@ -47,12 +47,14 @@ export default function LatestArticles() {
     <Box sx={{ py: 6, px: 2 }}>
       <Box maxWidth="lg" mx="auto">
         <Typography
-          variant="h3"
+          variant="h4"
           sx={{
             textAlign: "center",
-            mb: 3,
+            mb: 4,
             fontWeight: "bold",
-            color: "#2e4638",
+            background: "linear-gradient(135deg, #2e4638, #1f3127)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
           }}
         >
           Publications
@@ -78,29 +80,23 @@ export default function LatestArticles() {
                   onClick={() => handleNavigate(vol)}
                   sx={{
                     cursor: "pointer",
-                    transition: "all 0.3s ease",
-                    border: "1px solid #e5e7eb",
-                    boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-                    "&:hover": {
-                      boxShadow: "0 10px 25px rgba(0,0,0,0.15)",
-                      transform: "translateY(-4px)",
-                      borderColor: "#3b82f6",
-                    },
+                    borderRadius: 4,
+                    boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)",
                   }}
                 >
                   <CardContent sx={{ p: 3 }}>
                     <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                       <Box
                         sx={{
-                          backgroundColor: "#eff6ff",
+                          backgroundColor: "#f0f7f2",
                           borderRadius: "50%",
                           p: 1.5,
                           mr: 2,
                         }}
                       >
-                        <BookOpen size={24} color="#3b82f6" />
+                        <BookOpen size={24} color="#2e4638" />
                       </Box>
-                      <Typography variant="h5" sx={{ fontWeight: 600, color: "#111827" }}>
+                      <Typography variant="h5" sx={{ fontWeight: 600, color: "#2e4638" }}>
                         Year {vol.year}
                       </Typography>
                     </Box>
@@ -123,8 +119,8 @@ export default function LatestArticles() {
                       label={index === 0 ? "Latest" : "Archive"}
                       size="small"
                       sx={{
-                        backgroundColor: index === 0 ? "#dcfce7" : "#f3f4f6",
-                        color: index === 0 ? "#166534" : "#4b5563",
+                        backgroundColor: index === 0 ? "#f0f7f2" : "#f9f9f9",
+                        color: index === 0 ? "#2e4638" : "#666",
                         fontWeight: 500,
                       }}
                     />
