@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Box,
   Button,
@@ -35,6 +35,8 @@ function DocumentUpload() {
     paymentScreenshot: false,
   });
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "" });
+  const fileInputRef = useRef(null);
+  const paymentInputRef = useRef(null);
   const handleDrag = (e, type) => {
     e.preventDefault();
     e.stopPropagation();
@@ -318,8 +320,10 @@ function DocumentUpload() {
                 onDragLeave={(e) => handleDrag(e, "file")}
                 onDragOver={(e) => handleDrag(e, "file")}
                 onDrop={(e) => handleDrop(e, "file")}
+                onClick={() => fileInputRef.current?.click()}
               >
                 <input
+                  ref={fileInputRef}
                   type="file"
                   name="file"
                   hidden
@@ -328,7 +332,6 @@ function DocumentUpload() {
                   id="file-input"
                 />
                 <label
-                  htmlFor="file-input"
                   style={{ cursor: "pointer", display: "block" }}
                 >
                   <CloudUploadIcon
@@ -378,8 +381,10 @@ function DocumentUpload() {
                 onDragLeave={(e) => handleDrag(e, "paymentScreenshot")}
                 onDragOver={(e) => handleDrag(e, "paymentScreenshot")}
                 onDrop={(e) => handleDrop(e, "paymentScreenshot")}
+                onClick={() => paymentInputRef.current?.click()}
               >
                 <input
+                  ref={paymentInputRef}
                   type="file"
                   name="paymentScreenshot"
                   hidden
@@ -388,7 +393,6 @@ function DocumentUpload() {
                   id="payment-input"
                 />
                 <label
-                  htmlFor="payment-input"
                   style={{ cursor: "pointer", display: "block" }}
                 >
                   <CloudUploadIcon

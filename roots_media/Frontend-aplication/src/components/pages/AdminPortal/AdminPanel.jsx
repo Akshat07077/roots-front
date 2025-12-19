@@ -42,11 +42,61 @@ function AdminDashboard() {
   const [issueTitle, setIssueTitle] = useState('');
   const [magazinePDF, setMagazinePDF] = useState(null);
   const pdfInputRef = useRef(null);
-const [magazineErrors, setMagazineErrors] = useState({
-  volume: "",
-  issue: "",
-  pdf: "",
-});
+  const [magazines, setMagazines] = useState([]);
+  const [magazineLoading, setMagazineLoading] = useState(false);
+  const [editingMagazineId, setEditingMagazineId] = useState(null);
+  const fetchMagazines = async () => {
+    try {
+      setMagazineLoading(true);
+
+      const response = await fetch("https://roots-back-td3h.vercel.app/api/articles");
+      const data = await response.json();
+
+      if (response.ok) {
+        // Correct key is data.articles
+        setMagazines(data.articles || []);
+      }
+    } catch (err) {
+      console.error("Error fetching magazines:", err);
+    } finally {
+      setMagazineLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedMenu === "magazineTable") fetchMagazines();
+  }, [selectedMenu]);
+
+  const deleteMagazine = async (id) => {
+    if (!window.confirm("Delete this magazine?")) return;
+
+    try {
+      const res = await fetch(
+        `https://roots-back-td3h.vercel.app/api/admin/articles/${id}`,
+        { method: "DELETE" }
+      );
+
+      if (res.ok) {
+        fetchMagazines();
+      }
+    } catch (err) {
+      console.error("Delete error:", err);
+    }
+  };
+
+  const editMagazine = (mag) => {
+    setEditingMagazineId(mag.id);
+    setVolumeTitle(mag.volume);
+    setIssueTitle(mag.issue);
+    setMagazinePDF(null);
+    setSelectedMenu('magazine');
+  };
+
+  const [magazineErrors, setMagazineErrors] = useState({
+    volume: "",
+    issue: "",
+    pdf: "",
+  });
 
 
   const [editorialMember, setEditorialMember] = useState({
@@ -192,39 +242,54 @@ const [magazineErrors, setMagazineErrors] = useState({
     }
   };
 
-const handleSubmitMazine = async () => {
-const newErrors = {
-    volume: volumeTitle ? "" : "Volume Title is required.",
-    issue: issueTitle ? "" : "Issue Title is required.",
-    pdf: magazinePDF ? "" : "PDF file is required.",
-  };
+  const handleSubmitMazine = async () => {
+    const newErrors = {
+      volume: volumeTitle ? "" : "Volume Title is required.",
+      issue: issueTitle ? "" : "Issue Title is required.",
+      pdf: editingMagazineId ? "" : (magazinePDF ? "" : "PDF file is required."),
+    };
 
-  setMagazineErrors(newErrors);
-  if (newErrors.volume || newErrors.issue || newErrors.pdf) return;
+    setMagazineErrors(newErrors);
+    if (newErrors.volume || newErrors.issue || newErrors.pdf) return;
 
-  try {
-    const formData = new FormData();
-    formData.append('volume', volumeTitle);
-    formData.append('issue', issueTitle);
-    formData.append('pdf', magazinePDF);
+    try {
+      const formData = new FormData();
+      formData.append('volume', volumeTitle);
+      formData.append('issue', issueTitle);
+      if (magazinePDF) {
+        formData.append('pdf', magazinePDF);
+      }
 
-    const response = await fetch('https://roots-back-td3h.vercel.app/api/admin/publish', {
-      method: 'POST',
-      body: formData,
-    });
+      let url = 'https://roots-back-td3h.vercel.app/api/admin/publish';
+      let method = 'POST';
 
-    const data = await response.json();
+      if (editingMagazineId) {
+        url = `https://roots-back-td3h.vercel.app/api/admin/articles/${editingMagazineId}`;
+        method = 'PATCH';
+      }
 
-    if (response.ok && data.success) {
-      setVolumeTitle('');
-      setIssueTitle('');
-      setMagazinePDF(null);
-    } else {
+      const response = await fetch(url, {
+        method,
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setVolumeTitle('');
+        setIssueTitle('');
+        setMagazinePDF(null);
+        setEditingMagazineId(null);
+        handleClear();
+        fetchMagazines();
+        setSelectedMenu('magazineTable');
+      } else {
+        console.error('Error:', data);
+      }
+    } catch (error) {
+      console.error('Error uploading magazine:', error);
     }
-  } catch (error) {
-    console.error('Error uploading magazine:', error);
-  }
-};
+  };
 
   const fetchMembers = async () => {
     setLoading(true);
@@ -271,6 +336,35 @@ const newErrors = {
       profilePhoto: null,
     });
   };
+const handleExcelDocs = async () => {
+  try {
+    const response = await fetch('https://roots-back-td3h.vercel.app/api/admin/export-excel');
+
+    if (!response.ok) {
+      throw new Error('Download failed');
+    }
+
+    const blob = await response.blob();
+
+    const url = window.URL.createObjectURL(
+      new Blob([blob], { type: 'text/csv' })
+    );
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'excel-docs.csv'; 
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('CSV download failed:', error);
+  }
+};
+
+
+
 
   const handleEdit = (member) => {
     setIsEditing(true);
@@ -312,19 +406,28 @@ const newErrors = {
     } catch (err) {
     }
   };
-const handleClear = () => {
-  setVolumeTitle("");
-  setIssueTitle("");
-  setMagazinePDF(null);
+  const handleClear = () => {
+    setVolumeTitle("");
+    setIssueTitle("");
+    setMagazinePDF(null);
+    setEditingMagazineId(null);
 
-  setMagazineErrors({
-    volume: "",
-    issue: "",
-    pdf: "",
-  });
+    setMagazineErrors({
+      volume: "",
+      issue: "",
+      pdf: "",
+    });
     if (pdfInputRef.current) {
-    pdfInputRef.current.value = "";
-  }
+      pdfInputRef.current.value = "";
+    }
+  };
+const downloadFile = async (url) => {
+  const res = await fetch(url);
+  const blob = await res.blob();
+  const link = document.createElement("a");
+  link.href = window.URL.createObjectURL(blob);
+  link.download = "article.docx";
+  link.click();
 };
 
   const handleApprove = (articleId) => updateArticleStatus(articleId, 'approved');
@@ -341,7 +444,8 @@ const handleClear = () => {
         {[
           { id: 'articles', label: 'Articles Management', icon: <ArticleIcon /> },
           { id: 'editorial', label: 'Editorial Members', icon: <PeopleIcon /> },
-          { id: 'magazine', label: 'Upload Magazine', icon: <CloudUploadIcon /> }, 
+          { id: 'magazine', label: 'Upload Magazine', icon: <CloudUploadIcon /> },
+          { id: 'magazineTable', label: 'Magazines', icon: <ArticleIcon /> },
         ].map((item) => (
           <ListItem disablePadding key={item.id}>
             <ListItemButton
@@ -391,8 +495,8 @@ const handleClear = () => {
             {selectedMenu === 'articles'
               ? 'Articles Dashboard'
               : selectedMenu === 'editorial'
-              ? 'Editorial Members'
-              : 'Upload Magazine'}
+                ? 'Editorial Members'
+                : 'Upload Magazine'}
           </Typography>
           <Button color="inherit" variant="outlined" onClick={handleLogout}>
             Logout
@@ -467,7 +571,12 @@ const handleClear = () => {
                 </Grid>
                 <Card elevation={2}>
                   <CardContent>
-                    <Typography variant="h5" gutterBottom fontWeight="bold">All Articles</Typography>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><Typography variant="h5" gutterBottom fontWeight="bold">All Articles</Typography>
+                      <Button variant="contained"
+                        color="success"
+                        size="small"
+                        onClick={() => handleExcelDocs()}
+                        sx={{ textTransform: "none" }}>Download CSV File</Button></div>
                     <TableContainer component={Paper} variant="outlined">
                       <Table>
                         <TableHead>
@@ -494,8 +603,8 @@ const handleClear = () => {
                                       article.status === 'approved'
                                         ? 'success'
                                         : article.status === 'rejected'
-                                        ? 'error'
-                                        : 'warning'
+                                          ? 'error'
+                                          : 'warning'
                                     }
                                     size="small"
                                   />
@@ -526,22 +635,28 @@ const handleClear = () => {
                                       variant="outlined"
                                       size="small"
                                       startIcon={<CloudDownloadIcon />}
-                                      href={article.docx_url}
-                                      target="_blank"
+                                    onClick={() => downloadFile(article.docx_url)}
                                       sx={{ textTransform: "none" }}
                                     >
                                       Download DOCX
                                     </Button>
-                                    <Button
-                                      variant="outlined"
-                                      size="small"
-                                      startIcon={<VisibilityIcon />}
-                                      href={article.payment_screenshot_url}
-                                      target="_blank"
-                                      sx={{ textTransform: "none" }}
-                                    >
-                                      View Payment
-                                    </Button>
+                                    <Tooltip title={!article.payment_screenshot_url ? "Screenshot not available" : ""}>
+                                      <span>
+                                        <Button
+                                          variant="outlined"
+                                          size="small"
+                                          startIcon={<VisibilityIcon />}
+                                          component="a"
+                                          href={article.payment_screenshot_url || "#"}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          disabled={!article.payment_screenshot_url}
+                                          sx={{ textTransform: "none" }}
+                                        >
+                                          {article.payment_screenshot_url ? "View Payment" : "Screenshot Missing"}
+                                        </Button>
+                                      </span>
+                                    </Tooltip>
                                   </Box>
                                 </TableCell>
                               </TableRow>
@@ -745,71 +860,163 @@ const handleClear = () => {
             </Dialog>
           </Container>
         )}
-  {selectedMenu === 'magazine' && (
-  <Container maxWidth="md">
-    <Card elevation={2} sx={{ p: 3 }}>
-      <Typography variant="h5" fontWeight="bold" gutterBottom>
-        Upload Magazine
-      </Typography>
-<TextField
-  margin="dense"
-  fullWidth
-  label="Volume Title"
-  value={volumeTitle}
-  onChange={(e) => {setVolumeTitle(e.target.value);setMagazineErrors(prev => ({ ...prev, volume: "" }));}}
-  error={!!magazineErrors.volume}
-  helperText={magazineErrors.volume}
-/>
+        {selectedMenu === 'magazine' && (
+          <Container maxWidth="md">
+            <Card elevation={2} sx={{ p: 3 }}>
+              <Typography variant="h5" fontWeight="bold" gutterBottom>
+                {editingMagazineId ? 'Edit Magazine' : 'Upload Magazine'}
+              </Typography>
+              <TextField
+                margin="dense"
+                fullWidth
+                label="Volume Title"
+                value={volumeTitle}
+                onChange={(e) => { setVolumeTitle(e.target.value); setMagazineErrors(prev => ({ ...prev, volume: "" })); }}
+                error={!!magazineErrors.volume}
+                helperText={magazineErrors.volume}
+              />
 
-<TextField
-  margin="dense"
-  fullWidth
-  label="Issue Title"
-  value={issueTitle}
-  onChange={(e) => {setIssueTitle(e.target.value), setMagazineErrors(prev => ({ ...prev, issue: "" }));}}
+              <TextField
+                margin="dense"
+                fullWidth
+                label="Issue Title"
+                value={issueTitle}
+                onChange={(e) => { setIssueTitle(e.target.value), setMagazineErrors(prev => ({ ...prev, issue: "" })); }}
 
-  error={!!magazineErrors.issue}
-  helperText={magazineErrors.issue}
-/>
+                error={!!magazineErrors.issue}
+                helperText={magazineErrors.issue}
+              />
 
-<div style={{display:"flex", flexDirection:"column", margin:"5px 0px"}}>
-  <Button variant="outlined" component="label" sx={{textTransform:"none", maxWidth:"120px"}}>
-  Upload PDF
-  <input
-    margin="dense"
-    type="file"
-    hidden
-    ref={pdfInputRef}
-    accept="application/pdf"
-    onChange={(e) => {
-      setMagazinePDF(e.target.files[0]);
-      setMagazineErrors((prev) => ({ ...prev, pdf: "" }));
-    }}
-  />
-</Button>
-{magazineErrors.pdf && (
-  <Typography variant='caption' color="error" >
-    {magazineErrors.pdf}
-  </Typography>
-)}
-</div>
+              <div style={{ display: "flex", flexDirection: "column", margin: "5px 0px" }}>
+                <Button variant="outlined" component="label" sx={{ textTransform: "none", maxWidth: "120px" }}>
+                  {editingMagazineId ? 'Update PDF' : 'Upload PDF'}
+                  <input
+                    margin="dense"
+                    type="file"
+                    hidden
+                    ref={pdfInputRef}
+                    accept="application/pdf"
+                    onChange={(e) => {
+                      setMagazinePDF(e.target.files[0]);
+                      setMagazineErrors((prev) => ({ ...prev, pdf: "" }));
+                    }}
+                  />
+                </Button>
+                {magazineErrors.pdf && (
+                  <Typography variant='caption' color="error" >
+                    {magazineErrors.pdf}
+                  </Typography>
+                )}
+              </div>
 
-<div style={{display:"flex", justifyContent:"space-between", margin:"8px 0px"}}>
-<Button variant="contained"
-  sx={{ textTransform:"none" }}
-  onClick={handleClear}>Clear All</Button>
-<Button
-  variant="contained"
-  // fullWidth
-  sx={{ textTransform:"none" }}
-  onClick={handleSubmitMazine}
->
-  Upload Magazine
-</Button>
-</div>
-    </Card>
-  </Container>
-)}
+              <div style={{ display: "flex", justifyContent: "space-between", margin: "8px 0px" }}>
+                <Button variant="contained"
+                  sx={{ textTransform: "none" }}
+                  onClick={handleClear}>Clear All</Button>
+                <Button
+                  variant="contained"
+                  // fullWidth
+                  sx={{ textTransform: "none" }}
+                  onClick={handleSubmitMazine}
+                >
+                  {editingMagazineId ? 'Update Magazine' : 'Upload Magazine'}
+                </Button>
+              </div>
+            </Card>
+          </Container>
+        )}
+        {selectedMenu === "magazineTable" && (
+          <Container maxWidth="xl">
+            <Card elevation={2}>
+              <CardContent>
+                <Typography variant="h5" gutterBottom fontWeight="bold">
+                  Magazines List
+                </Typography>
+
+                {magazineLoading ? (
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    height="40vh"
+                  >
+                    <CircularProgress />
+                  </Box>
+                ) : (
+                  <TableContainer component={Paper} variant="outlined">
+                    <Table>
+                      <TableHead>
+                        <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+                          <TableCell><strong>Magazine Name</strong></TableCell>
+                          <TableCell><strong>Volume</strong></TableCell>
+                          <TableCell><strong>Issue</strong></TableCell>
+                          <TableCell align="center"><strong>Actions</strong></TableCell>
+                        </TableRow>
+                      </TableHead>
+
+                      <TableBody>
+                        {magazines.length === 0 ? (
+                          <TableRow>
+                            <TableCell colSpan={5} align="center">
+                              No magazines found
+                            </TableCell>
+                          </TableRow>
+                        ) : (
+                          magazines.map((mag) => (
+                            <TableRow key={mag.id} hover>
+                              <TableCell sx={{ padding: "8px" }}>
+                                {mag.magazine_name || "ROOTS Magazine"}
+                              </TableCell>
+
+                              <TableCell sx={{ padding: "8px" }}>{mag.volume}</TableCell>
+                              <TableCell sx={{ padding: "8px" }}>{mag.issue}</TableCell>
+                              <TableCell align="center" sx={{ padding: "8px" }}>
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    gap: 1,
+                                    justifyContent: "center",
+                                    flexWrap: "wrap",
+                                  }}
+                                >
+                                  <Tooltip title="Edit Magazine">
+                                    <IconButton
+                                      color="primary"
+                                      onClick={() => editMagazine(mag)}
+                                    >
+                                      <Edit />
+                                    </IconButton>
+                                  </Tooltip>
+                                  <Tooltip title="Delete Magazine">
+                                    <IconButton
+                                      color="error"
+                                      onClick={() => deleteMagazine(mag.id)}
+                                    >
+                                      <Delete />
+                                    </IconButton>
+                                  </Tooltip>
+                                  <Tooltip title="Download PDF">
+                                    <IconButton
+                                      color="success"
+                                      href={mag.pdf_url}
+                                      target="_blank"
+                                    >
+                                      <CloudDownloadIcon />
+                                    </IconButton>
+                                  </Tooltip>
+                                </Box>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        )}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                )}
+              </CardContent>
+            </Card>
+          </Container>
+        )}
       </Box>
     </Box>
   );
