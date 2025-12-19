@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { Box, Typography, Button, Container, Paper } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 
-function ProtectedRoute({ children, requiredRole = 'super_admin' }) {
+function ProtectedRoute({ children, requiredRole = 'admin' }) {
   const userRole = localStorage.getItem('userRole');
   const token = localStorage.getItem('token');
 
@@ -53,7 +53,7 @@ function ProtectedRoute({ children, requiredRole = 'super_admin' }) {
             </Typography>
 
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3, textAlign: 'center' }}>
-              You do not have permission to access the admin panel. Only super_admin users can access this page.
+              You do not have permission to access the admin panel. Only admin users can access this page.
             </Typography>
 
             <Button

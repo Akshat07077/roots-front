@@ -57,8 +57,8 @@ function LoginPage() {
         throw new Error(data.message || 'Invalid email or password');
       }
 
-      if (data.role !== 'super_admin') {
-        throw new Error('Access denied. Only super_admin can access this page.');
+      if (data.user?.role !== 'admin') {
+        throw new Error('Access denied. Only admin can access this page.');
       }
 
       // Save token (if backend sends one)
@@ -67,8 +67,8 @@ function LoginPage() {
       }
 
       // Save user role
-      if (data.role) {
-        localStorage.setItem('userRole', data.role);
+      if (data.user?.role) {
+        localStorage.setItem('userRole', data.user.role);
       }
 
       // Optional: remember email
