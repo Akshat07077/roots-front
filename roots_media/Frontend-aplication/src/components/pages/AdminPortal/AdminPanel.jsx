@@ -979,14 +979,14 @@ const downloadFile = async (url) => {
                                     flexWrap: "wrap",
                                   }}
                                 >
-                                  <Tooltip title="Edit Magazine">
+                                  {/* <Tooltip title="Edit Magazine">
                                     <IconButton
                                       color="primary"
                                       onClick={() => editMagazine(mag)}
                                     >
                                       <Edit />
                                     </IconButton>
-                                  </Tooltip>
+                                  </Tooltip> */}
                                   <Tooltip title="Delete Magazine">
                                     <IconButton
                                       color="error"
