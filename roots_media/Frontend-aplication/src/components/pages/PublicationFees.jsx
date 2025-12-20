@@ -158,7 +158,6 @@ function PublicationFees() {
                 justifyContent: "center",
                 textAlign: "center",
                 boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)",
-                // border: "2px solid #2e4638",
               }}
             >
               <Typography
