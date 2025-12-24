@@ -122,7 +122,7 @@ const handleSubmit = async (e) => {
           <Card
             sx={{
               flex: 1,
-              p: 3.5,
+              p: 2,
               borderRadius: 4,
               boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)",
             }}
@@ -165,23 +165,23 @@ const handleSubmit = async (e) => {
                 multiline
                 rows={4}
                 variant="outlined"
-                sx={{ mb: 3 }}
+                sx={{ mb: 1 }}
               />
-              <Button
+             <div style={{display:"flex", justifyContent:"end"}}><Button
                 type="submit"
                 variant="contained"
-                fullWidth
                 sx={{
-                  py: 1.5,
                   textTransform: "none",
                   fontWeight: "bold",
                   borderRadius: 2,
                   background: "linear-gradient(135deg, #2e4638, #1f3127)",
                   color: "white",
+                  maxWidth: "fit-content",
+                  
                 }}
               >
                 {isSubmitted ? "Message Sent!" : "Submit"}
-              </Button>
+              </Button></div>
             </Box>
           </Card>
         </Box>

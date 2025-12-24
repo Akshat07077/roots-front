@@ -4,8 +4,8 @@ import { Box, Typography, Button, Container, Paper } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 
 function ProtectedRoute({ children, requiredRole = 'admin' }) {
-  const userRole = localStorage.getItem('userRole');
-  const token = localStorage.getItem('token');
+  const userRole = sessionStorage.getItem('userRole');
+  const token = sessionStorage.getItem('token');
 
   if (!token || !userRole) {
     return <Navigate to="/login" replace />;

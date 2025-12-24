@@ -61,19 +61,18 @@ function LoginPage() {
         throw new Error('Access denied. Only admin can access this page.');
       }
 
-      // Save token (if backend sends one)
       if (data.token) {
-        localStorage.setItem('token', data.token);
+        sessionStorage.setItem('token', data.token);
       }
 
-      // Save user role
       if (data.user?.role) {
-        localStorage.setItem('userRole', data.user.role);
+        sessionStorage.setItem('userRole', data.user.role);
       }
 
-      // Optional: remember email
       if (rememberMe) {
         localStorage.setItem('email', email);
+      } else {
+        localStorage.removeItem('email');
       }
 
       navigate('/admin');

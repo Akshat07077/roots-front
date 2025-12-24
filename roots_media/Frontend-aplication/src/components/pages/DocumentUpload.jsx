@@ -422,6 +422,7 @@ function DocumentUpload() {
                   px: 4,
                   fontWeight: "bold",
                   borderRadius: "50px",
+                  textTransform:"none",
                   background: "linear-gradient(135deg, #2e4638, #1f3127)",
                   color: "#fff",
                   "&:hover": {
@@ -439,6 +440,7 @@ function DocumentUpload() {
                   px: 4,
                   borderRadius: "50px",
                   borderColor: "#2e4638",
+                  textTransform:"none",
                   color: "#2e4638",
                   "&:hover": { backgroundColor: "#f0f7f3" },
                 }}

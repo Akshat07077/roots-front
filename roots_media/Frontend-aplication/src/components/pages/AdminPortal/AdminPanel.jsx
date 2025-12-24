@@ -19,7 +19,8 @@ import {
   Add as AddIcon,
   Edit,
   Delete,
-  CloudUpload as CloudUploadIcon
+  CloudUpload as CloudUploadIcon,
+  Feedback as FeedbackIcon
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
@@ -45,6 +46,10 @@ function AdminDashboard() {
   const [magazines, setMagazines] = useState([]);
   const [magazineLoading, setMagazineLoading] = useState(false);
   const [editingMagazineId, setEditingMagazineId] = useState(null);
+  const [userFeedback, setUserFeedback] = useState([]);
+  const [feedbackLoading, setFeedbackLoading] = useState(false);
+  const [feedbackPage, setFeedbackPage] = useState(0);
+  const [feedbackRowsPerPage, setFeedbackRowsPerPage] = useState(5);
   const fetchMagazines = async () => {
     try {
       setMagazineLoading(true);
@@ -63,8 +68,24 @@ function AdminDashboard() {
     }
   };
 
+  const fetchUserFeedback = async () => {
+    try {
+      setFeedbackLoading(true);
+      const response = await fetch("https://roots-back-td3h.vercel.app/api/contact");
+      const data = await response.json();
+      if (response.ok) {
+        setUserFeedback(data.contacts || []);
+      }
+    } catch (err) {
+      console.error("Error fetching feedback:", err);
+    } finally {
+      setFeedbackLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (selectedMenu === "magazineTable") fetchMagazines();
+    if (selectedMenu === "userFeedback") fetchUserFeedback();
   }, [selectedMenu]);
 
   const deleteMagazine = async (id) => {
@@ -153,7 +174,11 @@ function AdminDashboard() {
     setRowsPerPage(parseInt(e.target.value, 10));
     setPage(0);
   };
-  const handleLogout = () => navigate('/login');
+  const handleLogout = () => {
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('userRole');
+    navigate('/login');
+  };
 
   // const handleOpenDialog = () => setOpenDialog(true);
   const handleCloseDialog = () => {
@@ -446,6 +471,7 @@ const downloadFile = async (url) => {
           { id: 'editorial', label: 'Editorial Members', icon: <PeopleIcon /> },
           { id: 'magazine', label: 'Upload Magazine', icon: <CloudUploadIcon /> },
           { id: 'magazineTable', label: 'Magazines', icon: <ArticleIcon /> },
+          { id: 'userFeedback', label: 'User Feedback', icon: <FeedbackIcon /> },
         ].map((item) => (
           <ListItem disablePadding key={item.id}>
             <ListItemButton
@@ -496,9 +522,11 @@ const downloadFile = async (url) => {
               ? 'Articles Dashboard'
               : selectedMenu === 'editorial'
                 ? 'Editorial Members'
+                : selectedMenu === 'userFeedback'
+                  ? 'User Feedback'
                 : 'Upload Magazine'}
           </Typography>
-          <Button color="inherit" variant="outlined" onClick={handleLogout}>
+          <Button color="inherit" variant="outlined" onClick={handleLogout} sx={{textTransform:"none"}}>
             Logout
           </Button>
         </Toolbar>
@@ -687,6 +715,7 @@ const downloadFile = async (url) => {
                 Editorial Members
               </Typography>
               <Button
+              sx={{textTransform:"none"}}
                 variant="contained"
                 startIcon={<AddIcon />}
                 onClick={handleOpenDialog}
@@ -828,6 +857,7 @@ const downloadFile = async (url) => {
                 <Button
                   variant="outlined"
                   component="label"
+                  sx={{textTransform:"none"}}
                 >
                   Upload Profile Photo
                   <input
@@ -852,8 +882,8 @@ const downloadFile = async (url) => {
                 )}
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleCloseDialog}>Cancel</Button>
-                <Button onClick={handleSubmitMember} variant="contained">
+                <Button sx={{textTransform:"none"}} onClick={handleCloseDialog}>Cancel</Button>
+                <Button onClick={handleSubmitMember} variant="contained" sx={{textTransform:"none"}}>
                   {isEditing ? "Update Member" : "Add Member"}
                 </Button>
               </DialogActions>
@@ -1012,6 +1042,85 @@ const downloadFile = async (url) => {
                       </TableBody>
                     </Table>
                   </TableContainer>
+                )}
+              </CardContent>
+            </Card>
+          </Container>
+        )}
+        {selectedMenu === "userFeedback" && (
+          <Container maxWidth="xl">
+            <Card elevation={2}>
+              <CardContent>
+                <Typography variant="h5" gutterBottom fontWeight="bold">
+                  User Feedback
+                </Typography>
+
+                {feedbackLoading ? (
+                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    height="40vh"
+                  >
+                    <CircularProgress />
+                  </Box>
+                ) : (
+                  <>
+                    <TableContainer component={Paper} variant="outlined">
+                      <Table>
+                        <TableHead>
+                          <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+                            <TableCell><strong>Name</strong></TableCell>
+                            <TableCell><strong>Email</strong></TableCell>
+                            <TableCell><strong>Message</strong></TableCell>
+                            <TableCell><strong>Date</strong></TableCell>
+                          </TableRow>
+                        </TableHead>
+
+                        <TableBody>
+                          {userFeedback.length === 0 ? (
+                            <TableRow>
+                              <TableCell colSpan={4} align="center">
+                                No feedback available
+                              </TableCell>
+                            </TableRow>
+                          ) : (
+                            userFeedback
+                              .slice(feedbackPage * feedbackRowsPerPage, feedbackPage * feedbackRowsPerPage + feedbackRowsPerPage)
+                              .map((feedback, index) => (
+                                <TableRow key={feedback.id || index} hover>
+                                  <TableCell sx={{ padding: "8px" }}>
+                                    {feedback.name || "N/A"}
+                                  </TableCell>
+                                  <TableCell sx={{ padding: "8px" }}>
+                                    {feedback.email || "N/A"}
+                                  </TableCell>
+                                  <TableCell sx={{ padding: "8px" }}>
+                                    {feedback.message || "N/A"}
+                                  </TableCell>
+                                  <TableCell sx={{ padding: "8px" }}>
+                                    {feedback.created_at ? new Date(feedback.created_at).toLocaleDateString() : "N/A"}
+                                  </TableCell>
+                                </TableRow>
+                              ))
+                          )}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+
+                    <TablePagination
+                      rowsPerPageOptions={[5, 10, 25]}
+                      component="div"
+                      count={userFeedback.length}
+                      rowsPerPage={feedbackRowsPerPage}
+                      page={feedbackPage}
+                      onPageChange={(_, newPage) => setFeedbackPage(newPage)}
+                      onRowsPerPageChange={(e) => {
+                        setFeedbackRowsPerPage(parseInt(e.target.value, 10));
+                        setFeedbackPage(0);
+                      }}
+                    />
+                  </>
                 )}
               </CardContent>
             </Card>
