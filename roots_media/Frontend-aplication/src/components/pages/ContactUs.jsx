@@ -36,28 +36,28 @@ function ContactUs() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  try {
-    const response = await fetch("https://roots-back-td3h.vercel.app/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const response = await fetch("https://roots-back-td3h.vercel.app/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-   if (response.ok) {
-  setIsSubmitted(true);
-  setFormData({ name: "", email: "", message: "" });
-  setTimeout(() => setIsSubmitted(false), 3000);
-  setSnackbar({ open: true, message: "Message sent successfully!", severity: "success" });
-} else {
-  console.error("Failed to send message");
-}
-  } catch (error) {
-    console.error("Error submitting contact form:", error);
-  }
-};
+      if (response.ok) {
+        setIsSubmitted(true);
+        setFormData({ name: "", email: "", message: "" });
+        setTimeout(() => setIsSubmitted(false), 3000);
+        setSnackbar({ open: true, message: "Message sent successfully!", severity: "success" });
+      } else {
+        console.error("Failed to send message");
+      }
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+    }
+  };
 
 
   return (
@@ -167,7 +167,7 @@ const handleSubmit = async (e) => {
                 variant="outlined"
                 sx={{ mb: 1 }}
               />
-             <div style={{display:"flex", justifyContent:"end"}}><Button
+              <div style={{ display: "flex", justifyContent: "end" }}><Button
                 type="submit"
                 variant="contained"
                 sx={{
@@ -177,7 +177,7 @@ const handleSubmit = async (e) => {
                   background: "linear-gradient(135deg, #2e4638, #1f3127)",
                   color: "white",
                   maxWidth: "fit-content",
-                  
+
                 }}
               >
                 {isSubmitted ? "Message Sent!" : "Submit"}
@@ -185,97 +185,97 @@ const handleSubmit = async (e) => {
             </Box>
           </Card>
         </Box>
-<Box
-  sx={{
-    display: "grid",
-    gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
-    gap: 3,
-    mb: 4,
-  }}
->
-    <Card
-    sx={{
-      p: 3,
-      borderRadius: 4,
-      textAlign: "center",
-      boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)",
-    }}
-  >
-    <CardContent>
-      <Box sx={{ color: "#c3a36b", mb: 1 }}>
-        <Email fontSize="large" />
-      </Box>
-      <Typography
-        variant="h6"
-        sx={{ fontWeight: "bold", mb: 1, color: "#2e4638" }}
-      >
-        Email Us
-      </Typography>
-      <Typography variant="body2" sx={{ color: "#666" }}>
-        rootsmedia.publications@gmail.com
-      </Typography>
-    </CardContent>
-  </Card>
-  {[
-    {
-      name: "Shaik Allamalik Ansari",
-      title: "Founder and chief editor",
-      phone: "+91 6305807610",
-      email: "Shaikansari1999@gmail.com",
-      emailHref: "mailto:Shaikansari1999@gmail.com",
-      phoneHref: "tel:+916305807610",
-    },
-    {
-      name: "Garlapati Arun",
-      title: "Co - Founder and Chief editor",
-      phone: "+91 6302 286 595",
-      email: "arungarlapati.126@gmail.com",
-      emailHref: "mailto:arungarlapati.126@gmail.com",
-      phoneHref: "tel:+916302286595",
-    },
-  ].map((person, i) => (
-    <Card
-      key={i}
-      sx={{
-        p: 3,
-        borderRadius: 4,
-        textAlign: "center",
-        boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)",
-      }}
-    >
-      <CardContent>
-        <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
-          {person.name}
-        </Typography>
-        <Typography variant="body2" sx={{ mb: 1 }}>
-          {person.title}
-        </Typography>
-        <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-          <Phone sx={{ mr: 1 }} />
-          <Typography variant="body2">
-            <a
-              href={person.phoneHref}
-              style={{ textDecoration: "none", color: "inherit" }}
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
+            gap: 3,
+            mb: 4,
+          }}
+        >
+          <Card
+            sx={{
+              p: 3,
+              borderRadius: 4,
+              textAlign: "center",
+              boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)",
+            }}
+          >
+            <CardContent>
+              <Box sx={{ color: "#c3a36b", mb: 1 }}>
+                <Email fontSize="large" />
+              </Box>
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: "bold", mb: 1, color: "#2e4638" }}
+              >
+                Email Us
+              </Typography>
+              <Typography variant="body2" sx={{ color: "#666" }}>
+                rootsmedia.publications@gmail.com
+              </Typography>
+            </CardContent>
+          </Card>
+          {[
+            {
+              name: "Shaik Allamalik Ansari",
+              title: "Founder and chief editor",
+              phone: "+91 6305807610",
+              email: "Shaikansari1999@gmail.com",
+              emailHref: "mailto:Shaikansari1999@gmail.com",
+              phoneHref: "tel:+916305807610",
+            },
+            {
+              name: "Garlapati Arun",
+              title: "Co - Founder and Chief editor",
+              phone: "+91 6302 286 595",
+              email: "arungarlapati.126@gmail.com",
+              emailHref: "mailto:arungarlapati.126@gmail.com",
+              phoneHref: "tel:+916302286595",
+            },
+          ].map((person, i) => (
+            <Card
+              key={i}
+              sx={{
+                p: 3,
+                borderRadius: 4,
+                textAlign: "center",
+                boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)",
+              }}
             >
-              {person.phone}
-            </a>
-          </Typography>
+              <CardContent>
+                <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
+                  {person.name}
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 1 }}>
+                  {person.title}
+                </Typography>
+                <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+                  <Phone sx={{ mr: 1 }} />
+                  <Typography variant="body2">
+                    <a
+                      href={person.phoneHref}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      {person.phone}
+                    </a>
+                  </Typography>
+                </Box>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Email sx={{ mr: 1 }} />
+                  <Typography variant="body2">
+                    <a
+                      href={person.emailHref}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      {person.email}
+                    </a>
+                  </Typography>
+                </Box>
+              </CardContent>
+            </Card>
+          ))}
         </Box>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Email sx={{ mr: 1 }} />
-          <Typography variant="body2">
-            <a
-              href={person.emailHref}
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              {person.email}
-            </a>
-          </Typography>
-        </Box>
-      </CardContent>
-    </Card>
-  ))}
-</Box>
 
         {/* Social Media */}
         {/* Optional: uncomment and customize if needed */}
@@ -399,19 +399,19 @@ const handleSubmit = async (e) => {
           </Card>
         </Box> */}
         <Snackbar
-  open={snackbar.open}
-  autoHideDuration={6000}
-  onClose={() => setSnackbar({ ...snackbar, open: false })}
-  anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
->
-  <Alert
-    onClose={() => setSnackbar({ ...snackbar, open: false })}
-    severity={snackbar.severity}
-    sx={{ width: "100%" }}
-  >
-    {snackbar.message}
-  </Alert>
-</Snackbar>
+          open={snackbar.open}
+          autoHideDuration={6000}
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert
+            onClose={() => setSnackbar({ ...snackbar, open: false })}
+            severity={snackbar.severity}
+            sx={{ width: "100%" }}
+          >
+            {snackbar.message}
+          </Alert>
+        </Snackbar>
       </Container>
     </MainLayout>
   );
