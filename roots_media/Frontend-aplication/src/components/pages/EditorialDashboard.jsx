@@ -34,7 +34,7 @@ export default function EditorialAndAdvisoryBoard() {
     },
     {
       id: 2,
-      name: "Mr. Shaik Allamlik Ansari",
+      name: "Mr. Shaik Allamalik Ansari",
       title: "Research Scholar",
       bio: "Department of Genetics and Plant breeding",
       photo_url: ansari,
