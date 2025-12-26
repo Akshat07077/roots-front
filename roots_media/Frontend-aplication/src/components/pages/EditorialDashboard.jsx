@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import MainLayout from "../templates/MainLayout";
 import { Email, Phone } from "@mui/icons-material";
+import arunPng from "../../assets/arun.jpeg";
+import ansari from "../../assets/ansari.jpeg";
 
 export default function EditorialAndAdvisoryBoard() {
   const theme = useTheme();
@@ -20,11 +22,31 @@ export default function EditorialAndAdvisoryBoard() {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ useRef guard to prevent duplicate API calls in Strict Mode
+  const chiefEditorialMembers = [
+    {
+      id: 1,
+      name: "Mr. Arun Garlapati ",
+      title: "Research Scholar",
+      bio: "Department of Genetics and Plant Breeding, School of Agriculture, ITM University, Gwalior.",
+      photo_url: arunPng,
+      email: "arungarlapati.126@gmail.com ",
+      phone_number: "6302286595",
+    },
+    {
+      id: 2,
+      name: "Mr. Shaik Allamlik Ansari",
+      title: "Research Scholar",
+      bio: "Department of Genetics and Plant breeding",
+      photo_url: ansari,
+      email: "Shaikansari1999@gmail.com",
+      phone_number: "6305807610",
+    }
+  ];
+
   const hasFetched = useRef(false);
 
   useEffect(() => {
-    if (hasFetched.current) return; // prevents second call in StrictMode
+    if (hasFetched.current) return; 
     hasFetched.current = true;
 
     const fetchMembers = async () => {
@@ -45,7 +67,7 @@ export default function EditorialAndAdvisoryBoard() {
   }, []);
 
   const renderMembers = (members) => (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} justifyContent="center">
       {members.map((member) => (
         <Grid item xs={4} key={member.id}>
           <Card
@@ -55,7 +77,7 @@ export default function EditorialAndAdvisoryBoard() {
               boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)",
               p: 3,
               height: "100%",
-              maxWidth: 300,
+              maxWidth: 350,
               display: "flex",
               flexDirection: "column",
               mx:"auto"
@@ -171,6 +193,37 @@ export default function EditorialAndAdvisoryBoard() {
           </Box>
         ) : (
           <Box>
+            <Box sx={{ textAlign: "center", mb: 1 }}>
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: "bold",
+                  mb: 1.5,
+                  background: "linear-gradient(135deg, #2e4638, #1f3127)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+               Editor in Chief 
+              </Typography>
+              {/* <Typography
+                variant="body2"
+                sx={{
+                  maxWidth: 600,
+                  mx: "auto",
+                  color: "#666",
+                  fontSize: "0.95rem",
+                  lineHeight: 1.6,
+                }}
+              >
+                Meet our senior editorial team leading content excellence and journalistic integrity.
+              </Typography> */}
+            </Box>
+
+            {renderMembers(chiefEditorialMembers)}
+
+            <Divider sx={{ my: 3 }} />
+
             <Box sx={{ textAlign: "center", mb: 5 }}>
               <Typography
                 variant="h4"
@@ -182,7 +235,7 @@ export default function EditorialAndAdvisoryBoard() {
                   WebkitTextFillColor: "transparent",
                 }}
               >
-                Editorial & Advisory Board
+                Editorial and Advisory Board
               </Typography>
 
               <Typography

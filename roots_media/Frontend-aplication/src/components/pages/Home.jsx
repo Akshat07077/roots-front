@@ -3,16 +3,21 @@ import MainLayout from "../templates/MainLayout";
 import { Box, Container } from "@mui/material";
 import AboutUs from "./AboutUs";
 
-import banner1 from "../../assets/banner1.png";
-import banner2 from "../../assets/banner2.png";
+import banner1 from "../../assets/banner1.webp";
+import banner2 from "../../assets/banner2.jpg";
+import banner3 from "../../assets/banner3.jpg";
+import banner4 from "../../assets/banner4.jpg";
+import banner5 from "../../assets/banner5.jpg";
 import SubmissionDeadLine from "./SubmissionDeadline";
 import HeroSlider from "./HeroSlider";
 import LatestArticles from "./LatestArticles";
 
 const featuredArticles = [
-  { id: 1, title: "Precision Agriculture", image: banner1 },
-  { id: 2, title: "Climate-Resilient Horticulture", image: banner2 },
-  { id: 3, title: "Dairy Tech", image: banner1 },
+  { id: 1, title: "", image: banner1 },
+  { id: 2, title: "", image: banner2 },
+  { id: 3, title: "", image: banner3 },
+  { id: 4, title: "", image: banner4 },
+  { id: 5, title: "", image: banner5 },
 ];
 
 export default function Home() {

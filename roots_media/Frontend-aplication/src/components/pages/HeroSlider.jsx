@@ -16,7 +16,7 @@ export default function HeroSlider({ articles }) {
       direction="horizontal"
     //   style={{ width: "100%", height: "100%" }}
     >
-      {articles.slice(0, 3).map((article) => (
+      {articles.slice(0, 5).map((article) => (
         <SwiperSlide key={article.id}>
           <Card
             sx={{

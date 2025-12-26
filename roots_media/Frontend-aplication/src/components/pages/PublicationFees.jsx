@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Typography, Grid, Card, CardContent } from "@mui/material";
 import qr_link from "../../assets/qr_code.jpg";
 import MainLayout from "../templates/MainLayout";
+import { Star } from "@mui/icons-material";
 
 function PublicationFees() {
   return (
@@ -230,31 +231,45 @@ function PublicationFees() {
               >
                 ⚠️
               </Typography>
-              <Box>
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: "bold", color: "#2e4638", mb: 1 }}
-                >
-                  Important Note:
-                </Typography>
-                <Typography variant="body2" sx={{ color: "#2e4638", lineHeight: 1.6 }}>
-                  Transaction ID and receipt are mandatory and must be sent at{" "}
+              <Box sx={{ flex: 1 }}>
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
                   <Typography
-                    component="span"
-                    sx={{
-                      fontWeight: "600",
-                      backgroundColor: "#e8f4f0",
-                      px: 1,
-                      py: 0.3,
-                      borderRadius: 1,
-                      fontFamily: "monospace",
-                      fontSize: "0.85rem",
-                    }}
+                    variant="h6"
+                    sx={{ fontWeight: "bold", color: "#2e4638", m: 0 }}
                   >
-                    rootsmedia.publications@gmail.com
-                  </Typography>{" "}
-                  after payment.
-                </Typography>
+                    Important Notes:
+                  </Typography>
+                 
+                </Box>
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+                  <Box sx={{ display: "flex", gap: 1.5, alignItems: "flex-start" }}>
+                    <Star style={{color:"#d4af37"}}/>
+                    <Typography variant="body2" sx={{ color: "#2e4638", lineHeight: 1.6 }}>
+                      Transaction ID and receipt are mandatory and must be sent at{" "}
+                      <Typography
+                        component="span"
+                        sx={{
+                          fontWeight: "600",
+                          backgroundColor: "#e8f4f0",
+                          px: 1,
+                          py: 0.3,
+                          borderRadius: 1,
+                          fontFamily: "monospace",
+                          fontSize: "0.85rem",
+                        }}
+                      >
+                        rootsmedia.publications@gmail.com
+                      </Typography>{" "}
+                      after payment.
+                    </Typography>
+                  </Box>
+                  <Box sx={{ display: "flex", gap: 1.5, alignItems: "flex-start" }}>
+                     <Star style={{color:"#d4af37"}}/>
+                    <Typography variant="body2" sx={{ color: "#2e4638", lineHeight: 1.6 }}>
+                      An additional charge of <strong>₹50</strong> will be applied for each author after the third author.
+                    </Typography>
+                  </Box>
+                </Box>
               </Box>
             </Box>
           </Card>
