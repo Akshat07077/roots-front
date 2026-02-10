@@ -13,7 +13,7 @@ const JournalDetails = () => {
     { label: "Frequency", value: "Monthly" },
     { label: "ISSN", value: "", highlight: true },
     { label: "Publisher", value: "Roots Media" },
-    { label: "Chief-Editor", value: "" },
+    { label: "Chief-Editor", value: "Prof. (Dr.) Kalyan Ghadei" },
     { label: "Copyright", value: "Roots Media" },
     { label: "Starting Year", value: "2025" },
     { label: "Subject", value: "Agriculture and Allied Science" },

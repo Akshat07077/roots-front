@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import MainLayout from "../templates/MainLayout";
 import { Email, Phone } from "@mui/icons-material";
-import arunPng from "../../assets/arun.jpeg";
+import ProfeesPhoto from "../../assets/Professor_photo.jpeg";
 import ansari from "../../assets/ansari.jpeg";
 
 export default function EditorialAndAdvisoryBoard() {
@@ -23,15 +23,15 @@ export default function EditorialAndAdvisoryBoard() {
   const [loading, setLoading] = useState(true);
 
   const chiefEditorialMembers = [
-    // {
-    //   id: 1,
-    //   name: "Mr. Arun Garlapati ",
-    //   title: "Research Scholar",
-    //   bio: "Department of Genetics and Plant Breeding, School of Agriculture, ITM University, Gwalior.",
-    //   photo_url: arunPng,
-    //   email: "arungarlapati.126@gmail.com ",
-    //   phone_number: "6302286595",
-    // },
+    {
+      id: 1,
+      name: "Prof. (Dr.) Kalyan Ghadei",
+      title: "Professor",
+      bio: "Department of Agricultural Extension, Institute of Agricultural Sciences, Banaras Hindu University, Varanasi",
+      photo_url: ProfeesPhoto
+      // email: "arungarlapati.126@gmail.com ",
+      // phone_number: "6302286595",
+    }
     // {
     //   id: 2,
     //   name: "Mr. Shaik Allamalik Ansari",
@@ -194,7 +194,7 @@ export default function EditorialAndAdvisoryBoard() {
         ) : (
           <Box>
             <Box sx={{ textAlign: "center", mb: 1 }}>
-              {/* <Typography
+              <Typography
                 variant="h4"
                 sx={{
                   fontWeight: "bold",
@@ -205,8 +205,8 @@ export default function EditorialAndAdvisoryBoard() {
                 }}
               >
                Editor in Chief 
-              </Typography> */}
-              {/* <Typography
+              </Typography>
+              <Typography
                 variant="body2"
                 sx={{
                   maxWidth: 600,
@@ -217,12 +217,12 @@ export default function EditorialAndAdvisoryBoard() {
                 }}
               >
                 Meet our senior editorial team leading content excellence and journalistic integrity.
-              </Typography> */}
+              </Typography>
             </Box>
 
             {renderMembers(chiefEditorialMembers)}
 
-            {/* <Divider sx={{ my: 3 }} /> */}
+            <Divider sx={{ my: 3 }} />
 
             <Box sx={{ textAlign: "center", mb: 5 }}>
               <Typography
