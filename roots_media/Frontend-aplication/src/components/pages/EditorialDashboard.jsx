@@ -23,24 +23,24 @@ export default function EditorialAndAdvisoryBoard() {
   const [loading, setLoading] = useState(true);
 
   const chiefEditorialMembers = [
-    {
-      id: 1,
-      name: "Mr. Arun Garlapati ",
-      title: "Research Scholar",
-      bio: "Department of Genetics and Plant Breeding, School of Agriculture, ITM University, Gwalior.",
-      photo_url: arunPng,
-      email: "arungarlapati.126@gmail.com ",
-      phone_number: "6302286595",
-    },
-    {
-      id: 2,
-      name: "Mr. Shaik Allamalik Ansari",
-      title: "Research Scholar",
-      bio: "Department of Genetics and Plant breeding",
-      photo_url: ansari,
-      email: "Shaikansari1999@gmail.com",
-      phone_number: "6305807610",
-    }
+    // {
+    //   id: 1,
+    //   name: "Mr. Arun Garlapati ",
+    //   title: "Research Scholar",
+    //   bio: "Department of Genetics and Plant Breeding, School of Agriculture, ITM University, Gwalior.",
+    //   photo_url: arunPng,
+    //   email: "arungarlapati.126@gmail.com ",
+    //   phone_number: "6302286595",
+    // },
+    // {
+    //   id: 2,
+    //   name: "Mr. Shaik Allamalik Ansari",
+    //   title: "Research Scholar",
+    //   bio: "Department of Genetics and Plant breeding",
+    //   photo_url: ansari,
+    //   email: "Shaikansari1999@gmail.com",
+    //   phone_number: "6305807610",
+    // }
   ];
 
   const hasFetched = useRef(false);
@@ -194,7 +194,7 @@ export default function EditorialAndAdvisoryBoard() {
         ) : (
           <Box>
             <Box sx={{ textAlign: "center", mb: 1 }}>
-              <Typography
+              {/* <Typography
                 variant="h4"
                 sx={{
                   fontWeight: "bold",
@@ -205,7 +205,7 @@ export default function EditorialAndAdvisoryBoard() {
                 }}
               >
                Editor in Chief 
-              </Typography>
+              </Typography> */}
               {/* <Typography
                 variant="body2"
                 sx={{
@@ -222,7 +222,7 @@ export default function EditorialAndAdvisoryBoard() {
 
             {renderMembers(chiefEditorialMembers)}
 
-            <Divider sx={{ my: 3 }} />
+            {/* <Divider sx={{ my: 3 }} /> */}
 
             <Box sx={{ textAlign: "center", mb: 5 }}>
               <Typography

@@ -43,8 +43,6 @@ useEffect(() => {
             month: "long",
           }),
           year: new Date(item.created_at).getFullYear(),
-          image:
-            "https://images.unsplash.com/photo-1553531888-a3d6c2c7e5d0?w=400&h=300&fit=crop",
           pdf: item.pdf_url,
         }));
 
@@ -91,7 +89,29 @@ useEffect(() => {
             {magazines.map((mag, i) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={i}>
                 <Card sx={{ borderRadius: 4, overflow: "hidden", boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)" }}>
-                  <CardMedia component="img" height="230" image={mag.image} />
+                  <Box sx={{ height: 250, overflow: "hidden", position: "relative" }}>
+                    <iframe
+                      src={`${mag.pdf}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                      width="100%"
+                      height="100%"
+                      style={{ border: "none" }}
+                      title={`Issue ${mag.issue}`}
+                      overflow="none"
+                    />
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100%",
+                        height: "100%",
+                        zIndex: 2,
+                        cursor: "pointer",
+                        
+                      }}
+                      onClick={() => window.open(mag.pdf, "_blank")}
+                    />
+                  </Box>
 
                   <CardContent>
                     <Typography variant="h6" sx={{ fontWeight: 600 }}>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MainLayout from "../templates/MainLayout";
 import { Box, Container } from "@mui/material";
 import AboutUs from "./AboutUs";
+import JournalDetails from "./JournalDetails";
 
 import banner1 from "../../assets/banner1.webp";
 import banner2 from "../../assets/banner2.jpg";
@@ -64,6 +65,7 @@ export default function Home() {
 
       <Container>
         <AboutUs />
+        <JournalDetails />
         <LatestArticles  />
       </Container>
     </MainLayout>

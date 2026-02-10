@@ -1,19 +1,21 @@
 import { Box, Typography, Link, Grid, IconButton } from "@mui/material";
 import {
   Facebook,
-  Twitter,
   LinkedIn,
   Instagram,
+  WhatsApp,
+  Telegram
 } from "@mui/icons-material";
 import footer_icon from "../../../assets/roots_icon.png"
 
 export default function Footer() {
   const handleSocialClick = (platform) => {
     const urls = {
-      Facebook: "https://facebook.com/rootsmedia25",
-      Twitter: "https://twitter.com/rootsmedia25",
-      LinkedIn: "https://linkedin.com/rootsmedia25",
-      Instagram: "https://instagram.com/rootsmedia25",
+      Facebook: "https://www.facebook.com/share/g/16wF3sE6AZ/",
+      LinkedIn: "https://www.linkedin.com/groups/16896020",
+      Instagram: "https://www.instagram.com/rootsmedia25?igsh=c3c5Y2FpcHN6b2xw",
+      WhatsApp:  "https://chat.whatsapp.com/FZyOWvDAu4yCmPNKVZBrVC",
+      Telegram:  "https://t.me/Rootsmediapublications"
     };
     window.open(urls[platform], "_blank");
   };
@@ -50,9 +52,10 @@ export default function Footer() {
           <Box sx={{ display: "flex", justifyContent: "center", gap: 1 }}>
             {[
               { Icon: Facebook, platform: "Facebook" },
-              { Icon: Twitter, platform: "Twitter" },
               { Icon: LinkedIn, platform: "LinkedIn" },
               { Icon: Instagram, platform: "Instagram" },
+              { Icon: WhatsApp, platform: "WhatsApp" },
+              { Icon: Telegram, platform: "Telegram" },
             ].map(({ Icon, platform }, i) => (
               <IconButton
                 key={i}

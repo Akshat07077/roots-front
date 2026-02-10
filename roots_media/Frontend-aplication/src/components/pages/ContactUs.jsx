@@ -219,7 +219,7 @@ function ContactUs() {
           {[
             {
               name: "Shaik Allamalik Ansari",
-              title: "Founder and chief editor",
+              title: "Founder",
               phone: "+91 6305807610",
               email: "Shaikansari1999@gmail.com",
               emailHref: "mailto:Shaikansari1999@gmail.com",
@@ -227,7 +227,7 @@ function ContactUs() {
             },
             {
               name: "Garlapati Arun",
-              title: "Co - Founder and Chief editor",
+              title: "Co - Founder",
               phone: "+91 6302 286 595",
               email: "arungarlapati.126@gmail.com",
               emailHref: "mailto:arungarlapati.126@gmail.com",
@@ -244,10 +244,10 @@ function ContactUs() {
               }}
             >
               <CardContent>
-                <Typography variant="h6" sx={{ mb: 1, fontWeight: "bold" }}>
+                <Typography variant="h6" sx={{  fontWeight: "bold" }}>
                   {person.name}
                 </Typography>
-                <Typography variant="body2" sx={{ mb: 1 }}>
+                <Typography variant="body1" sx={{ mb: 1 }}>
                   {person.title}
                 </Typography>
                 <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
