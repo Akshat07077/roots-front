@@ -98,8 +98,15 @@ export default function Archives() {
     );
   };
 
-  // ✅ OPEN PDF IN SAME PAGE
   const handleOpenPdf = async (url) => {
+    // Mobile check
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      window.open(url, "_blank");
+      return;
+    }
+
     try {
       const res = await fetch(url);
       const blob = await res.blob();
@@ -111,6 +118,7 @@ export default function Archives() {
       });
     } catch (err) {
       console.error("PDF error:", err);
+      window.open(url, "_blank");
     }
   };
 
@@ -232,8 +240,6 @@ export default function Archives() {
           ))
         )}
       </Container>
-
-      {/* ✅ PDF VIEWER MODAL */}
       {pdfViewer.open && (
         <Box
           sx={{
@@ -281,8 +287,6 @@ export default function Archives() {
               </Button>
             </Box>
           </Box>
-
-          {/* PDF */}
           <iframe
             src={pdfViewer.url}
             style={{ flex: 1, border: "none" }}

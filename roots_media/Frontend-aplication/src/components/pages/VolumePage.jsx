@@ -94,9 +94,8 @@ useEffect(() => {
                       src={`${mag.pdf}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
                       width="100%"
                       height="100%"
-                      style={{ border: "none" }}
+                      style={{ border: "none", pointerEvents: "none" }}
                       title={`Issue ${mag.issue}`}
-                      overflow="none"
                     />
                     <Box
                       sx={{

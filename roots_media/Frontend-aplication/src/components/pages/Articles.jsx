@@ -51,7 +51,37 @@ export default function Articles() {
       <Grid container spacing={4}>
         {articles.map((article) => (
           <Grid item xs={12} sm={6} md={4} key={article.id}>
-            <Card sx={{ borderRadius: 4, boxShadow: '0 8px 24px rgba(46, 70, 56, 0.08)' }}>
+            <Card sx={{ borderRadius: 4, boxShadow: '0 8px 24px rgba(46, 70, 56, 0.08)', overflow: 'hidden' }}>
+              <Box
+                sx={{
+                  height: 200,
+                  position: "relative",
+                  overflow: "hidden",
+                  background: "#f5f5f5",
+                }}
+              >
+                <iframe
+                  src={`${article.pdf}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                  width="100%"
+                  height="100%"
+                  style={{ border: "none", pointerEvents: "none" }}
+                  title={article.title}
+                />
+                <Box
+                  component="a"
+                  href={article.pdf}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    zIndex: 2,
+                  }}
+                />
+              </Box>
               <CardContent>
                 <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
                   {article.title}
