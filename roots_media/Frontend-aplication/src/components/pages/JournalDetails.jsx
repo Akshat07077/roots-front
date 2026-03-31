@@ -21,7 +21,11 @@ const JournalDetails = () => {
     { label: "Publication Format", value: "Online" },
     { label: "E-mail", value: "rootsmedia.publications@gmail.com " },
     { label: "Mobile", value: "6305807610 / 6302286595" },
-    { label: "Website", value: "https://rootsmedia.co.in/ " }
+    { label: "Website", value: "https://rootsmedia.co.in/ " },
+{ label: "Publishing Address", value: `Roots Media,
+Kakatiya Colony,
+Jangaon District,
+Telangana, India – 506167` }
   ];
 
   return (
@@ -73,8 +77,12 @@ const JournalDetails = () => {
               {/* COLON */}
               <Typography
                 sx={{
-                  fontSize: "0.9rem",
-                  fontWeight: 600,
+                    fontSize: "0.9rem",
+    fontWeight: item.highlight ? 700 : 500,
+    color: item.highlight ? "#FFD84D" : "#EAF5EE",
+    lineHeight: 1.6,
+    whiteSpace: "pre-line", 
+    wordBreak: "break-word",
                 }}
               >
                 :

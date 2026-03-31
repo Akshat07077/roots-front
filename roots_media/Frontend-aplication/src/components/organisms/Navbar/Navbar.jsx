@@ -26,6 +26,7 @@ export default function Navbar() {
 
   const navItems = [
     { label: "Home", path: "/" },
+    { label: "Archivers", path: "/archives_page" },
     { label: "Editorial Board", path: "/editorial_board" },
     { label: "Authors Guidelines", path: "/authors-guidelines" },
     { label: "Publication Fees", path: "/publication-fees" },

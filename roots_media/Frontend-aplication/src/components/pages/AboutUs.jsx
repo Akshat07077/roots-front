@@ -49,11 +49,12 @@ function AboutUs() {
             empower businesses and individuals to achieve their goals.
           </Typography>
         </Box>
-        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', width: '100%' }}>
           <Box
             sx={{
-              width: `${imageSize.maxWidth}px`,
-              height: `${imageSize.height}px`,
+              maxWidth: imageSize.maxWidth,
+              width: '100%',
+              height: { xs: 300, sm: 400 },
               overflow: 'hidden',
               borderRadius: 4,
               boxShadow: '0 8px 24px rgba(46, 70, 56, 0.08)',
@@ -65,6 +66,7 @@ function AboutUs() {
               style={{
                 width: '100%',
                 height: "100%",
+                objectFit: "cover",
               }}
             />
           </Box>
@@ -96,11 +98,12 @@ function AboutUs() {
             strive to adapt to the evolving needs of our clients.
           </Typography>
         </Box>
-        <Box sx={{ flex: 1, textAlign: "center" }}>
+        <Box sx={{ flex: 1, textAlign: "center", width: '100%', display: 'flex', justifyContent: 'center' }}>
           <Box
             sx={{
-              width: `${imageSize.maxWidth}px`,
-              height: `${imageSize.height}px`,
+              maxWidth: imageSize.maxWidth,
+              width: '100%',
+              height: { xs: 300, sm: 400 },
               overflow: 'hidden',
               borderRadius: 4,
               boxShadow: '0 8px 24px rgba(46, 70, 56, 0.08)',

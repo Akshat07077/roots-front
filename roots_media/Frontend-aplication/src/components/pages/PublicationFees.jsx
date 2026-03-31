@@ -266,7 +266,7 @@ function PublicationFees() {
                   <Box sx={{ display: "flex", gap: 1.5, alignItems: "flex-start" }}>
                      <Star style={{color:"#d4af37"}}/>
                     <Typography variant="body2" sx={{ color: "#2e4638", lineHeight: 1.6 }}>
-                      An additional charge of <strong>₹50</strong> will be applied for each author after the third author.
+                      An additional charge of <strong>₹50</strong> will be applied for each author after the third article.
                     </Typography>
                   </Box>
                 </Box>

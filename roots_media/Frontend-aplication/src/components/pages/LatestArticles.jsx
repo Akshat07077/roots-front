@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Box, Grid, Card, CardContent, Typography, Chip } from "@mui/material";
+import { Box, Grid, Card, CardContent, Typography, Button } from "@mui/material";
+import { Calendar, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, Calendar, FileText } from "lucide-react";
 
 export default function LatestArticles() {
-  const navigate = useNavigate();
-
-  const [volumes, setVolumes] = useState([]);
+  const [monthGroups, setMonthGroups] = useState([]);
+  const [loading, setLoading] = useState(true);
   const effectRun = React.useRef(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!effectRun.current) {
@@ -16,36 +16,43 @@ export default function LatestArticles() {
       fetch("https://roots-back-td3h.vercel.app/api/articles")
         .then((res) => res.json())
         .then((data) => {
-          const grouped = {};
-
-          data.articles.forEach((item) => {
-            const year = new Date(item.created_at).getFullYear();
-
-            if (!grouped[year]) {
-              grouped[year] = {
-                year,
-                volume: year,
-                issues: 0,
+          const approved = data.articles.filter((a) => a.status === "approved");
+          
+          // Group by Month and Year
+          const groups = {};
+          approved.forEach((article) => {
+            const date = new Date(article.created_at);
+            const key = `${date.toLocaleString("en-US", { month: "long" })} ${date.getFullYear()}`;
+            if (!groups[key]) {
+              groups[key] = {
+                monthYear: key,
+                articles: [],
+                date: date, // For sorting
               };
             }
-
-            grouped[year].issues += 1;
+            groups[key].articles.push(article);
           });
 
-          const result = Object.values(grouped).sort((a, b) => b.year - a.year);
-          setVolumes(result);
+          // Sort groups by date descending
+          const sortedGroups = Object.values(groups).sort((a, b) => b.date - a.date);
+          
+          setMonthGroups(sortedGroups);
+          setLoading(false);
         })
-        .catch((err) => console.error("Failed to fetch:", err));
+        .catch((err) => {
+          console.error("Failed to fetch:", err);
+          setLoading(false);
+        });
     }
   }, []);
 
-  const handleNavigate = (vol) => {
-    navigate(`/volume/${vol.volume}`);
+  const handleMonthClick = (monthYear) => {
+    navigate("/archives_page", { state: { openMonth: monthYear } });
   };
 
   return (
     <Box sx={{ py: 6, px: 2 }}>
-      <Box maxWidth="lg" mx="auto">
+      <Box maxWidth="lg">
         <Typography
           variant="h4"
           sx={{
@@ -57,10 +64,12 @@ export default function LatestArticles() {
             WebkitTextFillColor: "transparent",
           }}
         >
-          Publications
+          Latest Publications
         </Typography>
 
-        {volumes.length === 0 ? (
+        {loading ? (
+          <Typography align="center">Loading latest publications...</Typography>
+        ) : monthGroups.length === 0 ? (
           <Typography
             variant="h6"
             sx={{
@@ -70,60 +79,51 @@ export default function LatestArticles() {
               fontWeight: 500,
             }}
           >
-            No records found
+            No publications found
           </Typography>
         ) : (
-          <Grid container spacing={3}>
-            {volumes.map((vol, index) => (
-              <Grid item xs={12} sm={6} md={6} key={index}>
+          <Grid container justifyContent="center">
+            {monthGroups.slice(0, 1).map((group) => (
+              <Grid item xs={12} sm={8} md={6} lg={4} key={group.monthYear}>
                 <Card
-                  onClick={() => handleNavigate(vol)}
                   sx={{
-                    cursor: "pointer",
                     borderRadius: 4,
+                    overflow: "hidden",
                     boxShadow: "0 8px 24px rgba(46, 70, 56, 0.08)",
+                    transition: "transform 0.2s",
+                    "&:hover": {
+                      transform: "translateY(-4px)",
+                      boxShadow: "0 12px 32px rgba(46, 70, 56, 0.12)",
+                    },
+                    cursor: "pointer",
                   }}
+                  onClick={() => handleMonthClick(group.monthYear)}
                 >
                   <CardContent sx={{ p: 3 }}>
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                      <Box
-                        sx={{
-                          backgroundColor: "#f0f7f2",
-                          borderRadius: "50%",
-                          p: 1.5,
-                          mr: 2,
-                        }}
-                      >
-                        <BookOpen size={24} color="#2e4638" />
-                      </Box>
-                      <Typography variant="h5" sx={{ fontWeight: 600, color: "#2e4638" }}>
-                        Year {vol.year}
+                    <Box sx={{ display: "flex", alignItems: "center", mb: 2, color: "#2e4638" }}>
+                      <Calendar size={24} style={{ marginRight: 12 }} />
+                      <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                        {group.monthYear}
                       </Typography>
                     </Box>
+                    
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                      {group.articles.length} {group.articles.length === 1 ? "Article" : "Articles"} Published
+                    </Typography>
 
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-                      <FileText size={18} color="#6b7280" style={{ marginRight: 8 }} />
-                      <Typography variant="body1" color="text.secondary">
-                        Issues {vol.issues}
-                      </Typography>
-                    </Box>
-
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-                      <Calendar size={18} color="#6b7280" style={{ marginRight: 8 }} />
-                      <Typography variant="body1" color="text.secondary">
-                        {vol.year}
-                      </Typography>
-                    </Box>
-
-                    <Chip
-                      label={index === 0 ? "Latest" : "Archive"}
-                      size="small"
+                    <Button
+                      variant="text"
+                      endIcon={<ChevronRight size={18} />}
                       sx={{
-                        backgroundColor: index === 0 ? "#f0f7f2" : "#f9f9f9",
-                        color: index === 0 ? "#2e4638" : "#666",
-                        fontWeight: 500,
+                        p: 0,
+                        textTransform: "none",
+                        fontWeight: 600,
+                        color: "#2e4638",
+                        "&:hover": { background: "transparent", textDecoration: "underline" },
                       }}
-                    />
+                    >
+                      View Archive
+                    </Button>
                   </CardContent>
                 </Card>
               </Grid>
