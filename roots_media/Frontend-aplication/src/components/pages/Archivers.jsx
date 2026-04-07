@@ -175,14 +175,31 @@ export default function Archives() {
                   </AccordionSummary>
 
                   <AccordionDetails>
-                    <Grid container spacing={3}>
+                    <Box
+                      sx={{
+                        display: "grid",
+                        gridTemplateColumns: {
+                          xs: "1fr",          // mobile → 1 column
+                          sm: "repeat(2, 1fr)",
+                          md: "repeat(3, 1fr)",
+                          lg: "repeat(4, 1fr)"
+                        },
+                        gap: 3
+                      }}
+                    >
                       {getFilteredArticles(
                         articlesByYearMonth[year][monthYear],
                         monthYear
                       ).map((article) => (
-                        <Grid item xs={12} sm={6} md={4} lg={3} key={article.id}>
-                          <Card sx={{ height: "100%" }}>
-                            {/* PDF PREVIEW BOX */}
+                        <Box key={article.id}>
+                          <Card
+                            sx={{
+                              width: "100%",
+                              height: "100%",
+                              display: "flex",
+                              flexDirection: "column"
+                            }}
+                          >
                             <Box
                               sx={{
                                 height: 250,
@@ -198,41 +215,55 @@ export default function Archives() {
                                 width="100%"
                                 height="100%"
                                 style={{ border: "none", pointerEvents: "none" }}
-                                title={`Issue ${article.issue}`}
                               />
-                              {/* Overlay to ensure clickability and disable internal interaction */}
                               <Box
                                 sx={{
                                   position: "absolute",
-                                  top: 0,
-                                  left: 0,
-                                  width: "100%",
-                                  height: "100%",
+                                  inset: 0,
                                   zIndex: 2,
                                 }}
                               />
                             </Box>
 
-                            <CardContent>
-                              <Typography fontWeight={600}>
+                            <CardContent
+                              sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                flexGrow: 1
+                              }}
+                            >
+                              <Typography
+                                fontWeight={600}
+                                sx={{
+                                  display: "-webkit-box",
+                                  WebkitLineClamp: 3,
+                                  WebkitBoxOrient: "vertical",
+                                  overflow: "hidden",
+                                  minHeight: "3.5em",
+                                  fontSize: "0.75rem",
+                                  lineHeight: 1.5,
+                                  textAlign:"center",
+                                }}
+                              >
                                 Issue {article.issue}
                               </Typography>
 
                               <Button
                                 fullWidth
                                 variant="contained"
-                                sx={{ mt: 2 , textTransform:"none"}}
-                                onClick={() =>
-                                  handleOpenPdf(article.pdf_url)
-                                }
+                                sx={{
+                                  mt: "auto",
+                                  textTransform: "none"
+                                }}
+                                onClick={() => handleOpenPdf(article.pdf_url)}
                               >
                                 Read Magazine
                               </Button>
                             </CardContent>
                           </Card>
-                        </Grid>
+                        </Box>
                       ))}
-                    </Grid>
+                    </Box>
                   </AccordionDetails>
                 </Accordion>
               ))}
@@ -273,7 +304,7 @@ export default function Archives() {
                   a.download = "magazine.pdf";
                   a.click();
                 }}
-                sx={{textTransform:"none"}}
+                sx={{ textTransform: "none" }}
               >
                 Download
               </Button>
@@ -281,7 +312,7 @@ export default function Archives() {
                 onClick={() =>
                   setPdfViewer({ open: false, url: "" })
                 }
-                sx={{textTransform:"none"}}
+                sx={{ textTransform: "none" }}
               >
                 Close
               </Button>
